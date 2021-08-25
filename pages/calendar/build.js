@@ -18,8 +18,7 @@ function takeWeek(start = newDate()) {
 
 function takeMonth(start = new Date()) {
     let month = [];
-    let date = start//startOfISOWeek(startOfDay(start));
-    console.log(date)
+    let date = start
     return function () {
         const weekGen = takeWeek(startOfMonth(date));
         const endDate = startOfDay(endOfISOWeek(endOfMonth(date)));
