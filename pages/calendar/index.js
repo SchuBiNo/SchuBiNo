@@ -1,29 +1,18 @@
 import Link from "next/link";
 import React,{ useState, useEffect } from "react";
 import moment from "moment";
+import {format, getISODay, startOfMonth} from "date-fns"
+
+import buildCalendar from "./build";
+import dayStyles from "./styles";
 
 export default function Calender() {
     const [calendar, setCalendar] = useState([]);
-    const [value, setValue] = useState(moment())
-
-    
-    const startDay = value.clone().startOf("month").startOf("isoWeek"); //week = s sunday; isoWeek = s monday
-    const endDay = value.clone().endOf("month").endOf("isoWeek");
-
+    const [value, setValue] = useState(new Date());
 
     useEffect(() => {
-        const day = startDay.clone().subtract(1, "day");
-        const tempA = []
-        while(day.isBefore(endDay, "day")) {
-            tempA.push(
-                Array(7).fill(0).map(() => day.add(1, "day").clone())
-            )
-        }
-        setCalendar(tempA)
+        setCalendar(buildCalendar(value))
     }, [value])
-
-
-    
 
     return( 
             <div>
@@ -31,10 +20,11 @@ export default function Calender() {
                 {
                     calendar.map(week => <div className="row">
                        {
-                           week.map(day => <div className="col card">
-                               <div className="card-body text-center fw-bold">
-                                    { day.format("D") }
-                               </div>
+                           week.map(day => 
+                           <div onClick={()=> setValue(day)} className={`col card ${dayStyles(day, value)} `}>
+                                <div className="card-body text-center fw-bold">
+                                     { format(day, "dd-MM")}
+                                </div>
                            </div>)
                        } 
                     </div>)
