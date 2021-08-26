@@ -17,11 +17,12 @@ export function loadEvents(date) {
 }
 export function addEvent(date, title, desc) {
 	let hash = getDateHash(date);
-	let id = `${hash}` + events[hash]?.length ?? 0;
+	let id = `${hash}` + (events[hash]?.length ?? 0);
 	let event = {
 		id: id,
 		title: title,
 		description: desc,
+		date: date,
 	};
 	if (events[hash] == undefined) events[hash] = [];
 	events[hash]?.push(event);
