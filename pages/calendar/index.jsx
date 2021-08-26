@@ -4,16 +4,28 @@ import { format, getISODay, startOfMonth } from 'date-fns';
 
 import buildCalendar from './build';
 import dayStyles from './styles';
-import { loadEvents, addEvent, hasEvents } from './calEvents';
+import { loadEvents, addEvent, hasEvents } from '../../helper/calEvents';
+
+import EventForm from '../../components/EventForm';
 
 export default function Calender() {
 	const [calendar, setCalendar] = useState([]);
 	const [value, setValue] = useState(new Date());
-	const [dateEvents, setEvents] = useState({});
+	const [hasEventForm, setEFbool] = useState(false);
 
 	useEffect(() => {
 		setCalendar(buildCalendar(value));
 	}, [value]);
+
+	function showEventForm() {
+		if (hasEventForm)
+			return <EventForm date={value} callback={() => eventFormCallback()} />;
+		else return '';
+	}
+
+	function eventFormCallback() {
+		setEFbool(false);
+	}
 
 	return (
 		<div>
@@ -27,7 +39,7 @@ export default function Calender() {
 								<div className='card-body text-center fw-bold'>
 									{format(day, 'dd-MM')}
 									<span> </span>
-									{hasEvents(day, dateEvents)}
+									{hasEvents(day)}
 								</div>
 							</div>
 						))}
@@ -37,7 +49,7 @@ export default function Calender() {
 
 			<div className='container mt-4'>
 				<div className='list-group'>
-					{loadEvents(value, dateEvents)?.map((cEvent) => (
+					{loadEvents(value)?.map((cEvent) => (
 						<a href='#' className='list-group-item list-group-item-action'>
 							<div className='d-flex w-100 justify-content-between'>
 								<h5 className='mb-1'>{cEvent.title}</h5>
@@ -47,14 +59,13 @@ export default function Calender() {
 							<small>edit | remove</small>
 						</a>
 					)) ?? <a>Nothing to do</a>}
+					{showEventForm()}
 				</div>
 				<div className='d-grid gap-2 d-md-flex justify-content-md-end mt-3'>
 					<button
 						className='btn btn-primary me-md-2'
 						type='button'
-						onClick={() =>
-							setEvents(addEvent(value, dateEvents, 'Test', 'Description📖'))
-						}>
+						onClick={() => setEFbool(true)}>
 						+
 					</button>
 				</div>

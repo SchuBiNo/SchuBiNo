@@ -24,13 +24,12 @@ function MyApp({ Component, pageProps }) {
 							data-bs-target='#navbarNavAltMarkup'
 							aria-controls='navbarNavAltMarkup'
 							aria-expanded='false'
-							aria-label='Toggle navigation'
-						>
+							aria-label='Toggle navigation'>
 							<span className='navbar-toggler-icon'></span>
 						</button>
 						<div className='collapse navbar-collapse' id='navbarNavAltMarkup'>
 							<div className='navbar-nav'>
-								<Link href='#'>
+								<Link href='/dashboard'>
 									<a className='nav-link active' aria-current='page'>
 										Dashboard
 									</a>
@@ -45,8 +44,7 @@ function MyApp({ Component, pageProps }) {
 									className='nav-link disabled'
 									href='#'
 									tabIndex='-1'
-									aria-disabled='true'
-								>
+									aria-disabled='true'>
 									Placeholder
 								</a>
 							</div>
