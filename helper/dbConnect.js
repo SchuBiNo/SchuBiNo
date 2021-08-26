@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
-import config from './config';
+import tempDBinfo from './tempDBinfo';
+//import config from './config';
 
 try {
 	mongoose
-		.connect(String(config.mongo.endpoint), {
-			user: config.mongo.user,
-			pass: config.mongo.password,
+		.connect(String(tempDBinfo /*config.mongo.endpoint*/), {
+			//user: config.mongo.user,
+			//pass: config.mongo.password,
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 		})

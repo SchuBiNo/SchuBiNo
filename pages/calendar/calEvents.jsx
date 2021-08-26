@@ -1,5 +1,6 @@
 import stringHash from 'string-hash';
 import { format } from 'date-fns';
+import dbConnect from '../../helper/dbConnect';
 
 function getDateHash(value) {
 	return stringHash(format(value, 'dd-MM-yyyy'));

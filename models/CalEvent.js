@@ -2,14 +2,24 @@ import mongoose from 'mongoose';
 
 const CalEventSchema = new mongoose.Schema(
 	{
-		_id: {
+		userId: {
+			type: String,
+			required: true,
+			index: true,
+		},
+		date: {
+			type: Date,
+			required: true,
+			index: true,
+		},
+		title: {
 			type: String,
 		},
-		events: {
+		body: {
 			type: String,
 		},
 	},
-	{ timestamps: false }
+	{ timestamps: true }
 );
 
 const CalEventModel = mongoose.model('CalEvent', CalEventSchema);
