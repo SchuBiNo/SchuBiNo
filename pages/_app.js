@@ -37,8 +37,8 @@ function MyApp({ Component, pageProps }) {
 								<Link href='/calendar'>
 									<a className='nav-link'>Planner</a>
 								</Link>
-								<Link href='#'>
-									<a className='nav-link'>Marks</a>
+								<Link href='/grades'>
+									<a className='nav-link'>Grades</a>
 								</Link>
 								<a
 									className='nav-link disabled'

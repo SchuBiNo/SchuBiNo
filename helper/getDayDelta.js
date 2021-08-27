@@ -8,6 +8,9 @@ export function getDayDelta(dayOne, dayTwo, numMode = false) {
 	else {
 		console.log(difference);
 		switch (difference) {
+			case 1:
+				return 'Yesterday';
+				break;
 			case 0:
 				return 'Today';
 				break;
