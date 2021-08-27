@@ -1,7 +1,7 @@
 class Tree {
 	#children = new Map();
 	#parent = null;
-	#id = Math.floor(Math.random() * Date.now);
+	#id = Math.floor(Math.random() * Date.now());
 	#name;
 
 	constructor(name) {

@@ -1,6 +1,6 @@
 import React from 'react';
-import { loadNextEvents } from '../helper/getNextEvents';
-import { getDayDelta } from '../helper/getDayDelta';
+import { loadNextEvents } from '@/helper/getNextEvents';
+import { getDayDelta } from '@/helper/getDayDelta';
 import { Card } from 'react-bootstrap';
 import Link from 'next/link';
 

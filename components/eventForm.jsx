@@ -1,5 +1,5 @@
 import React from 'react';
-import { addEvent } from '../helper/calEvents';
+import { addEvent } from '@/helper/calEvents';
 
 class EventForm extends React.Component {
 	state = {

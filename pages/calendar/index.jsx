@@ -4,9 +4,9 @@ import { format, getISODay, startOfMonth } from 'date-fns';
 
 import buildCalendar from './build';
 import dayStyles from './styles';
-import { loadEvents, addEvent, hasEvents } from '../../helper/calEvents';
+import { loadEvents, addEvent, hasEvents } from '@/helper/calEvents';
 
-import EventForm from '../../components/EventForm';
+import EventForm from '@/components/EventForm';
 
 export default function Calender() {
 	const [calendar, setCalendar] = useState([]);

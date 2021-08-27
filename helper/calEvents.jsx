@@ -1,6 +1,5 @@
 import stringHash from 'string-hash';
 import { format } from 'date-fns';
-import dbConnect from './dbConnect';
 
 let events = {};
 

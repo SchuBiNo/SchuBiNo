@@ -1,10 +1,9 @@
 import mongoose from 'mongoose';
-import tempDBinfo from './tempDBinfo';
 //import config from './config';
 
 try {
 	mongoose
-		.connect(String(tempDBinfo /*config.mongo.endpoint*/), {
+		.connect(String(process.env.MONGO_CN_STRING /*config.mongo.endpoint*/), {
 			//user: config.mongo.user,
 			//pass: config.mongo.password,
 			useNewUrlParser: true,

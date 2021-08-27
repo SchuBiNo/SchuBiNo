@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
-import Tree from '../../helper/tree';
+import Tree from '@/helper/tree';
 
 export default function grades() {
 	const [gradeTree, setGradeTree] = useState(new Tree('finalGrade'));
-	gradeTree.createChildNode('test');
 	gradeTree.print();
-	gradeTree.traverse((node) => console.log(node.name));
+	console.log(gradeTree.descendats);
 
 	return (
 		<div className='container'>
