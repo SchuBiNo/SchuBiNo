@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+const MODEL_NAME = 'CalEvent';
+
 const CalEventSchema = new mongoose.Schema(
 	{
 		userId: {
@@ -22,6 +24,5 @@ const CalEventSchema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
-const CalEventModel = mongoose.model('CalEvent', CalEventSchema);
-
-export default CalEventModel;
+export default mongoose.models[MODEL_NAME] ||
+	mongoose.model(MODEL_NAME, CalEventSchema);

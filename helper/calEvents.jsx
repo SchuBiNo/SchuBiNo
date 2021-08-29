@@ -14,13 +14,14 @@ export function loadEvents(date) {
 	}
 	return undefined;
 }
-export function addEvent(date, title, desc) {
+export function addEvent(date, title, desc, flare) {
 	let hash = getDateHash(date);
 	let id = `${hash}` + (events[hash]?.length ?? 0);
 	let event = {
 		id: id,
 		title: title,
 		description: desc,
+		flare: flare,
 		date: date,
 	};
 	if (events[hash] == undefined) events[hash] = [];

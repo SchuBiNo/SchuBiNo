@@ -4,7 +4,8 @@ import { addEvent } from '@/helper/calEvents';
 class EventForm extends React.Component {
 	state = {
 		title: '',
-		descrpiton: '',
+		description: '',
+		flare: '',
 	};
 
 	handleChange = (event) => {
@@ -13,8 +14,8 @@ class EventForm extends React.Component {
 
 	handleSubmit = (event) => {
 		event.preventDefault();
-		const { title, descrpiton } = this.state;
-		if (title != '') addEvent(this.props.date, title, descrpiton);
+		const { title, description, flare } = this.state;
+		if (title != '') addEvent(this.props.date, title, description, flare);
 		this.props.callback();
 	};
 
@@ -39,8 +40,17 @@ class EventForm extends React.Component {
 						<input
 							className='form-control mt-2'
 							type='text'
-							name='descrpiton'
+							name='description'
 							placeholder='Your Description'
+							onChange={this.handleChange}
+						/>
+					</div>
+					<div>
+						<input
+							className='form-control mt-2'
+							type='text'
+							name='flare'
+							placeholder='Set flare (optional)'
 							onChange={this.handleChange}
 						/>
 					</div>

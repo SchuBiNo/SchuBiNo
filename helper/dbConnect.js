@@ -1,19 +1,32 @@
 import mongoose from 'mongoose';
 //import config from './config';
 
-try {
-	mongoose
-		.connect(String(process.env.MONGO_CN_STRING /*config.mongo.endpoint*/), {
-			//user: config.mongo.user,
-			//pass: config.mongo.password,
+export async function dbConnect() {
+	if (mongoose.connection.readyState >= 1) return;
+
+	console.log('trying to connect db!💾');
+	return mongoose
+		.connect(process.env.MONGO_CN_STRING, {
 			useNewUrlParser: true,
-			useUnifiedTopology: true,
+			// useUnifiedTopology: true,
 		})
 		.then(() => {
-			console.log('Connected to DB!');
+			console.log('Connected to db!💾');
 		});
-} catch (e) {
-	console.log(e);
 }
 
-export default mongoose.connection;
+export function jsonify(obj) {
+	return JSON.parse(JSON.stringify(obj));
+}
+
+export default async function dbMiddleware(req, res, next) {
+	try {
+		if (!global.mongoose) {
+			global.mongoose == dbConnect();
+		}
+	} catch (e) {
+		console.error(e);
+	}
+
+	return next();
+}

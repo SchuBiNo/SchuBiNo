@@ -1,6 +1,11 @@
 import Link from 'next/link';
 import EventList from '@/components/eventList';
+import AccessDenied from '@/components/accessDenied';
+
+import { useSession } from 'next-auth/client';
 
 export default function Dashboard() {
-	return <EventList days={7} amount={5} />;
+	const [session, loading] = useSession();
+
+	return <>{session ? <EventList days={7} amount={5} /> : <AccessDenied />}</>;
 }
