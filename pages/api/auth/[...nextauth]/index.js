@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
-import { authenticateLogin } from '@/helper/credentialsAuth';
+import { authenticateLogin } from '@/helper/authenticateCredentials';
 const options = {
 	providers: [
 		Providers.Credentials({

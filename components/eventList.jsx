@@ -1,16 +1,19 @@
 import React from 'react';
-import { loadNextEvents } from '@/helper/getNextEvents';
-import { getDayDelta } from '@/helper/getDayDelta';
+import { loadNextEvents } from '@/helper/eventList/getNextEvents';
+import { getDayDelta } from '@/helper/eventList/getDayDelta';
 import { Card } from 'react-bootstrap';
 import Link from 'next/link';
 
 class EventList extends React.Component {
-	render() {
+	constructor(props) {
+		super(props);
 		this.listEvents = loadNextEvents(
 			this.props.days,
 			new Date(),
 			this.props.amount
 		);
+	}
+	render() {
 		console.log(this.listEvents);
 		return (
 			<div>

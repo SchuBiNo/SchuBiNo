@@ -1,4 +1,4 @@
-import { loadEvents } from './calEvents';
+import { loadEvents } from '../calendar/calEvents';
 import { addDays } from 'date-fns';
 
 //days = amount of days to consider; amount = amount to return

@@ -1,12 +1,15 @@
 import React from 'react';
-import { addEvent } from '@/helper/calEvents';
+import { addEvent } from '@/helper/calendar/calEvents';
 
 class EventForm extends React.Component {
-	state = {
-		title: '',
-		description: '',
-		flare: '',
-	};
+	constructor(props) {
+		super(props);
+		this.state = {
+			title: '',
+			description: '',
+			flare: '',
+		};
+	}
 
 	handleChange = (event) => {
 		this.setState({ [event.target.name]: event.target.value });

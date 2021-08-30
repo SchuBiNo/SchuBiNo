@@ -1,7 +1,7 @@
 import React from 'react';
 import { signIn } from 'next-auth/client';
-import { getActive } from '@helper/getNavbarActive';
-
+import { getActive } from '@/helper/navbar/getNavbarActive';
+import Link from 'next/link';
 class Navbar extends React.Component {
 	constructor(props) {
 		super(props);
@@ -23,41 +23,26 @@ class Navbar extends React.Component {
 							data-bs-target='#navbarNavAltMarkup'
 							aria-controls='navbarNavAltMarkup'
 							aria-expanded='false'
-							aria-label='Toggle navigation'
-						>
+							aria-label='Toggle navigation'>
 							<span className='navbar-toggler-icon'></span>
 						</button>
 						<div className='collapse navbar-collapse' id='navbarNavAltMarkup'>
 							<div className='navbar-nav'>
-								<Link href='/dashboard'>
-									<a className='nav-link active' aria-current='page'>
-										Dashboard
-									</a>
-								</Link>
-								<Link href='/calendar'>
-									<a className='nav-link'>Planner</a>
-								</Link>
-								<Link href='/grades'>
-									<a className='nav-link'>Grades</a>
-								</Link>
-								<a
-									className='nav-link disabled'
-									href='#'
-									tabIndex='-1'
-									aria-disabled='true'
-								>
-									Placeholder
-								</a>
+								{Object.entries(this.props.navs).map((nav) => (
+									<Link href={nav[1]}>
+										<a
+											className={`nav-link ${getActive(
+												this.props.path,
+												nav[1]
+											)}`}>
+											{nav[0]}
+										</a>
+									</Link>
+								))}
 							</div>
 						</div>
 					</div>
 				</nav>
-				{Object.entries(entries.props.navs).map((nav) => {
-					const [name, path] = nav;
-					<Link href={path}>
-						<a className='nav-link'>{name}</a>
-					</Link>;
-				})}
 			</div>
 		);
 	}

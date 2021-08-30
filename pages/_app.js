@@ -1,12 +1,14 @@
 // add bootstrap css
 import 'bootstrap/dist/css/bootstrap.css';
 import Head from 'next/head';
-import Navbar from '@components/Navbar';
+import Navbar from '@/components/navBar';
 import '../styles/globals.css';
 import Link from 'next/link';
 import { Provider } from 'next-auth/client';
 
 function MyApp({ Component, pageProps }) {
+	const path = typeof window !== 'undefined' ? window.location.pathname : '/';
+
 	return (
 		<Provider session={pageProps.session}>
 			<Head>
@@ -17,8 +19,8 @@ function MyApp({ Component, pageProps }) {
 					navs={{
 						Dashboard: '/dashboard',
 						Planner: '/calendar',
-						Grades: '/grades',
 					}}
+					path={path}
 				/>
 			</header>
 			<Component {...pageProps} />

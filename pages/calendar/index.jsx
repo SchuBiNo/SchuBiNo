@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { format, addMonths } from 'date-fns';
 import { useSession } from 'next-auth/client';
 
-import buildCalendar from '@/helper/buildCalender';
-import dayStyles from '@/helper/styleCalendar';
-import { loadEvents, hasEvents } from '@/helper/calEvents';
+import buildCalendar from '@/helper/calendar/buildCalender';
+import dayStyles from '@/helper/calendar/styleCalendar';
+import { loadEvents, hasEvents } from '@/helper/calendar/calEvents';
 
 import EventForm from '@/components/EventForm';
 import AccessDenied from '@/components/accessDenied';
