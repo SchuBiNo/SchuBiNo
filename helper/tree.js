@@ -5,19 +5,24 @@ class Tree {
 	#name;
 
 	constructor(name) {
-		if (!name || typeof name !== 'string' || !name.trim().length) {
+		if (!this.#isNonEmptyString(name)) {
 			throw new Error('Name must be a non-empty String');
 		}
 
 		this.#name = name;
 	}
 
+	#isNonEmptyString = (str) => {
+		if (!str || typeof str !== 'string' || !str.trim().length) return false;
+		else return true;
+	};
+
 	get name() {
 		return this.#name;
 	}
 
 	set name(newName) {
-		if (!newName || typeof newName !== 'string' || !newName.trim().length) {
+		if (!this.#isNonEmptyString(newName)) {
 			throw new Error('Name must be a non-empty String');
 		}
 

@@ -8,7 +8,7 @@ export default function Page() {
 			<h1>Getting Started</h1>
 			<br />
 			<p>
-				Welcome to the Next.js demo!
+				Welcome to the Next.js test page!
 				<br />
 				<br />
 				Next. js is a React framework that enables several extra features,
@@ -22,9 +22,9 @@ export default function Page() {
 			<h2>Login</h2>
 			<br />
 			<p>
-				To start using the demo, you must first log in.
+				To start using the test page, you must first log in.
 				<br />
-				Currently, 3 providers are implemented in the demo.
+				Currently, 3 providers are implemented in the test page.
 				<br />
 				<br />
 				<p className='fs-4'>Custom Credential Provider:</p>
@@ -79,8 +79,41 @@ export default function Page() {
 				)}
 			</div>
 			<br />
-			<h1>Implementation</h1>
+			<h1>API</h1>
 			<br />
+			<p>
+				<p className='fs-4'>Get UserID</p>
+				The userID can be obtained by sending a "GET" request to the &nbsp;
+				<code>/api/user/[name]/id</code> route, where &nbsp;<code>[name]</code>
+				&nbsp; is the username of the user whose userID you want to request.
+				<br />
+				<br />
+				<p className='fs-4'>Add Event to Database</p>
+				Events can be added to the database by sending a "POST" request to the{' '}
+				<code>/api/calendar/add</code> route.
+				<br />
+				The body of the request must contain valid JSON data.
+				<br /> The body has to include the userId of type <code>String</code>,
+				the date of type <code>Date</code> and events of type <code>Array</code>
+				.
+				<br />
+				<br />
+				<p className='fs-4'>Get Events from Database</p>To retrieve events from
+				the database, send a "POST" request to the{' '}
+				<code>/api/calendar/get</code> route.
+				<br />
+				This API route currently uses "POST" requests when it should be a "GET"
+				request, the reason for this is that "GET" requests do not support a
+				JSON body and request parameters are not suitable for this type of
+				request.
+				<br />
+				<br />
+				The body of the request must contain valid JSON data.
+				<br /> The body has to include the userId and dates of type{' '}
+				<code>Date</code> or <code>Array</code>.
+				<br />
+				The API will return all events for the requested dates.
+			</p>
 		</div>
 	);
 }

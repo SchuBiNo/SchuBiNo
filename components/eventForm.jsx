@@ -1,5 +1,5 @@
 import React from 'react';
-import { addEvent } from '@/helper/calendar/calEvents';
+import events, { createEventInstance } from '@/helper/calendar/events';
 
 class EventForm extends React.Component {
 	constructor(props) {
@@ -18,7 +18,14 @@ class EventForm extends React.Component {
 	handleSubmit = (event) => {
 		event.preventDefault();
 		const { title, description, flare } = this.state;
-		if (title != '') addEvent(this.props.date, title, description, flare);
+		if (title != '')
+			events.addEvent(
+				this.props.date,
+				title,
+				description,
+				flare,
+				this.props.username
+			);
 		this.props.callback();
 	};
 

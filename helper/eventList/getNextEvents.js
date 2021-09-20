@@ -1,24 +1,21 @@
-import { loadEvents } from '../calendar/calEvents';
+import events from '../calendar/events';
 import { addDays } from 'date-fns';
 
-//days = amount of days to consider; amount = amount to return
-export function loadNextEvents(days, startDay, amount) {
+export function loadNextEvents(days, startDay, amountToReturn) {
 	let day = startDay;
-	let amountLeft = amount;
-	let events = [];
+	let amountLeft = amountToReturn;
+	let nextEvents = [];
 	let tempDailyEvents;
 	for (let i = 0; i < days; i++) {
-		tempDailyEvents = loadEvents(day);
-		console.log(tempDailyEvents);
+		tempDailyEvents = events.getEventsForDate(day);
 		tempDailyEvents?.forEach((item) => {
 			if (amountLeft > 0) {
-				events.push(item);
+				nextEvents.push(item);
 				amountLeft--;
 			}
 		});
-		if (amountLeft == 0) return events;
-		console.log(day);
+		if (amountLeft == 0) return nextEvents;
 		day = addDays(day, 1);
 	}
-	return events;
+	return nextEvents;
 }

@@ -14,11 +14,9 @@ const CalEventSchema = new mongoose.Schema(
 			required: true,
 			index: true,
 		},
-		title: {
-			type: String,
-		},
-		body: {
-			type: String,
+		events: {
+			type: Array,
+			required: true,
 		},
 	},
 	{ timestamps: true }

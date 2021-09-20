@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/client';
 
 import buildCalendar from '@/helper/calendar/buildCalender';
 import dayStyles from '@/helper/calendar/styleCalendar';
-import { loadEvents, hasEvents } from '@/helper/calendar/calEvents';
+import events, { createEventInstance } from '@/helper/calendar/events';
 
 import EventForm from '@/components/EventForm';
 import AccessDenied from '@/components/accessDenied';
@@ -13,7 +13,7 @@ import AccessDenied from '@/components/accessDenied';
 export default function Calender() {
 	const [calendar, setCalendar] = useState([]);
 	const [value, setValue] = useState(new Date());
-	const [hasEventForm, setEFbool] = useState(false);
+	const [hasEventForm, setEventForm] = useState(false);
 	const [session, loading] = useSession();
 
 	useEffect(() => {
@@ -22,12 +22,18 @@ export default function Calender() {
 
 	function showEventForm() {
 		if (hasEventForm)
-			return <EventForm date={value} callback={() => eventFormCallback()} />;
+			return (
+				<EventForm
+					date={value}
+					username={session.user.name}
+					callback={() => eventFormCallback()}
+				/>
+			);
 		else return '';
 	}
 
 	function eventFormCallback() {
-		setEFbool(false);
+		setEventForm(false);
 	}
 
 	return (
@@ -63,7 +69,13 @@ export default function Calender() {
 												<div className='card-body text-center fw-bold'>
 													{format(day, 'dd-MM')}
 													<span> </span>
-													{hasEvents(day)}
+													{events.dateHasEvents(day) ? (
+														<span className='badge rounded-pill bg-primary'>
+															📑
+														</span>
+													) : (
+														''
+													)}
 												</div>
 											</div>
 										))}
@@ -75,23 +87,27 @@ export default function Calender() {
 
 					<div className='container mt-4'>
 						<div className='list-group'>
-							{loadEvents(value)?.map((cEvent) => (
-								<a href='#' className='list-group-item list-group-item-action'>
-									<div className='d-flex w-100 justify-content-between'>
-										<h5 className='mb-1'>{cEvent.title}</h5>
-										<small>{cEvent.flare}</small>
-									</div>
-									<p className='mb-1'>{cEvent.description}</p>
-									<small>edit | remove</small>
-								</a>
-							)) ?? <a>Nothing to do</a>}
+							{events
+								.getEventsForDate(value, session?.user.name)
+								?.map((cEvent) => (
+									<a
+										href='#'
+										className='list-group-item list-group-item-action'>
+										<div className='d-flex w-100 justify-content-between'>
+											<h5 className='mb-1'>{cEvent.title}</h5>
+											<small>{cEvent.flare}</small>
+										</div>
+										<p className='mb-1'>{cEvent.description}</p>
+										<small>edit | remove</small>
+									</a>
+								)) ?? <a>Nothing to do</a>}
 							{showEventForm()}
 						</div>
 						<div className='d-grid gap-2 d-md-flex justify-content-md-end mt-3'>
 							<button
 								className='btn btn-primary me-md-2'
 								type='button'
-								onClick={() => setEFbool(true)}>
+								onClick={() => setEventForm(true)}>
 								+
 							</button>
 						</div>

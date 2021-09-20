@@ -1,8 +1,9 @@
 import React from 'react';
 import { loadNextEvents } from '@/helper/eventList/getNextEvents';
-import { getDayDelta } from '@/helper/eventList/getDayDelta';
+import { getDayDeltaText } from '@/helper/eventList/getDayDelta';
 import { Card } from 'react-bootstrap';
 import Link from 'next/link';
+import { parseISO } from 'date-fns';
 
 class EventList extends React.Component {
 	constructor(props) {
@@ -30,7 +31,7 @@ class EventList extends React.Component {
 											<div className='d-flex w-100 justify-content-between'>
 												<h5 className='mb-1'>{item.title}</h5>
 												<small>
-													{getDayDelta(new Date(), item.date, false)}
+													{getDayDeltaText(new Date(), parseISO(item.date))}
 												</small>
 											</div>
 											<p className='mb-1'>{item.description}</p>
