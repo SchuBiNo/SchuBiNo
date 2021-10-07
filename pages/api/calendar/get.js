@@ -6,7 +6,6 @@ export default async function handler(req, res) {
 		await dbConnect();
 
 		const { userId, dates } = req.body;
-		console.log('Got request');
 		let datesArr = convertToArray(dates);
 		let results = await CalEvent.find({
 			userId: userId,

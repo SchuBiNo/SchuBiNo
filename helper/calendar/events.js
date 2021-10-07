@@ -95,7 +95,6 @@ class Events {
 
 	getEventsForDate(date, username) {
 		if (!this.#dateIsSynced(date)) {
-			console.log('here:', this.#dateIsSynced(date), startOfMonth(date));
 			this.#syncMonth(date, username);
 			let hash = this.#getDateHash(date);
 			return this.#events[hash];
@@ -117,7 +116,6 @@ class Events {
 		};
 		if (this.#events[hash] == undefined) this.#events[hash] = [];
 		this.#events[hash]?.push(event);
-		console.log('Username:', username);
 		let userId = await this.#getUserId(username);
 		await axios
 			.post('/api/calendar/add', {

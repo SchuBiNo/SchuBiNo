@@ -7,7 +7,7 @@ import buildCalendar from '@/helper/calendar/buildCalender';
 import dayStyles from '@/helper/calendar/styleCalendar';
 import events, { createEventInstance } from '@/helper/calendar/events';
 
-import EventForm from '@/components/EventForm';
+import EventForm from '@/components/eventForm';
 import AccessDenied from '@/components/accessDenied';
 
 export default function Calender() {
