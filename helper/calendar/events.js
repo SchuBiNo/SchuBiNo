@@ -107,6 +107,7 @@ class Events {
 				hours: time.slice(0, 2),
 				minutes: time.slice(3),
 			});
+		else return date;
 	};
 
 	getEventsForDate(date, username) {
@@ -145,6 +146,30 @@ class Events {
 			.catch(function (error) {
 				console.log(error);
 			});
+	}
+
+	async deleteEvent(date, username, eventId, callback) {
+		let success = false;
+		let hash = this.#getDateHash(date);
+		let userId = await this.#getUserId(username);
+		await axios
+			.delete('/api/calendar/delete', {
+				data: { userId: userId, date: date, eventId: eventId },
+			})
+			.then(function (response) {
+				console.log('Response:', response);
+				success = true;
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+		if (success) {
+			let index = this.#events[hash]?.indexOf((el) => {
+				el.id == eventId;
+			});
+			this.#events[hash]?.splice(index, 1);
+			callback();
+		}
 	}
 
 	dateHasEvents(date) {

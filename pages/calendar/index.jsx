@@ -1,6 +1,13 @@
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
-import { format, addMonths, getMinutes, getHours, parseISO } from 'date-fns';
+import {
+	format,
+	addMonths,
+	getMinutes,
+	getHours,
+	parseISO,
+	addMilliseconds,
+} from 'date-fns';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 
@@ -39,6 +46,10 @@ export default function Calender() {
 	function eventFormCallback() {
 		setEventForm(false);
 	}
+	const refresh = () => {
+		//workaround because you it doesn't update when the same value is set
+		setValue(addMilliseconds(value, 1));
+	};
 
 	return (
 		<>
@@ -110,7 +121,20 @@ export default function Calender() {
 												{cEvent.flare}
 											</span>
 										</p>
-										<small>edit | remove</small>
+										<small>
+											edit |{' '}
+											<a
+												onClick={() => {
+													events.deleteEvent(
+														value,
+														session?.user.name,
+														cEvent.id,
+														refresh
+													);
+												}}>
+												delete
+											</a>
+										</small>
 									</a>
 								)) ?? <a>Nothing to do</a>}
 							{showEventForm()}
