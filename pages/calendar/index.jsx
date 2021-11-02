@@ -1,18 +1,22 @@
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
-import { format, addMonths } from 'date-fns';
+import { format, addMonths, getMinutes, getHours, parseISO } from 'date-fns';
 import { useSession } from 'next-auth/client';
+import { useRouter } from 'next/router';
 
 import buildCalendar from '@/helper/calendar/buildCalender';
 import dayStyles from '@/helper/calendar/styleCalendar';
-import events, { createEventInstance } from '@/helper/calendar/events';
+import events from '@/helper/calendar/events';
 
 import EventForm from '@/components/eventForm';
 import AccessDenied from '@/components/accessDenied';
 
 export default function Calender() {
+	const router = useRouter();
 	const [calendar, setCalendar] = useState([]);
-	const [value, setValue] = useState(new Date());
+	const [value, setValue] = useState(
+		router.query.date ? parseISO(router.query.date) : new Date()
+	);
 	const [hasEventForm, setEventForm] = useState(false);
 	const [session, loading] = useSession();
 
@@ -95,9 +99,17 @@ export default function Calender() {
 										className='list-group-item list-group-item-action'>
 										<div className='d-flex w-100 justify-content-between'>
 											<h5 className='mb-1'>{cEvent.title}</h5>
-											<small>{cEvent.flare}</small>
+											<small>
+												{getHours(parseISO(cEvent.date))}:
+												{getMinutes(parseISO(cEvent.date))}
+											</small>
 										</div>
 										<p className='mb-1'>{cEvent.description}</p>
+										<p>
+											<span className='badge bg-primary rounded-pill'>
+												{cEvent.flare}
+											</span>
+										</p>
 										<small>edit | remove</small>
 									</a>
 								)) ?? <a>Nothing to do</a>}

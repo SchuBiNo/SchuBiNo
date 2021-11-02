@@ -1,5 +1,5 @@
 import React from 'react';
-import events, { createEventInstance } from '@/helper/calendar/events';
+import events from '@/helper/calendar/events';
 
 class EventForm extends React.Component {
 	constructor(props) {
@@ -7,22 +7,25 @@ class EventForm extends React.Component {
 		this.state = {
 			title: '',
 			description: '',
+			startTime: '',
 			flare: '',
 		};
 	}
 
 	handleChange = (event) => {
+		console.log(event.target.value);
 		this.setState({ [event.target.name]: event.target.value });
 	};
 
 	handleSubmit = (event) => {
 		event.preventDefault();
-		const { title, description, flare } = this.state;
+		const { title, description, startTime, flare } = this.state;
 		if (title != '')
 			events.addEvent(
 				this.props.date,
 				title,
 				description,
+				startTime,
 				flare,
 				this.props.username
 			);
@@ -55,14 +58,44 @@ class EventForm extends React.Component {
 							onChange={this.handleChange}
 						/>
 					</div>
-					<div>
+					<div className='mt-4'>
+						<span class='form-text'>Set start & end time.</span>
 						<input
-							className='form-control mt-2'
+							className='form-control form-control-sm'
+							type='time'
+							name='startTime'
+							onChange={this.handleChange}
+						/>
+						<input
+							className='form-control form-control-sm  mt-2'
+							type='time'
+							name='endTime'
+							onChange={this.handleChange}
+						/>
+					</div>
+					<div className=' mt-4'>
+						<span class='form-text'>Set flare and color.</span>
+						<input
+							className='form-control'
 							type='text'
 							name='flare'
 							placeholder='Set flare (optional)'
 							onChange={this.handleChange}
 						/>
+						<input
+							className='form-control mt-2'
+							list='datalistOptions'
+							id='exampleDataList'
+							placeholder='Type to search...'
+						/>
+						<datalist id='datalistOptions'>
+							<option value='Blue' />
+							<option value='Grey' />
+							<option value='Green' />
+							<option value='Red' />
+							<option value='Yellow' />
+							<option value='Cyan' />
+						</datalist>
 					</div>
 					<button className='btn btn-primary mt-3' type='submit'>
 						Save

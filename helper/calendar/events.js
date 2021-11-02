@@ -1,11 +1,12 @@
 import stringHash from 'string-hash';
 import {
+	add,
 	addDays,
 	addMonths,
 	compareAsc,
 	format,
 	getDaysInMonth,
-	getMonth,
+	startOfDay,
 	parseISO,
 	startOfMonth,
 	subMonths,
@@ -93,6 +94,21 @@ class Events {
 		});
 	};
 
+	#addTimeToDate = (date, time) => {
+		console.log(time);
+		console.log('oldDate:', date);
+		date = startOfDay(date);
+		console.log('start of date:', date);
+		//time is number --> add hours
+		if (typeof time === 'number') return add(date, { hours: time });
+		//time is hh:mm formart --> add hours and minutes
+		if (typeof time === 'string' && time.includes(':', 2))
+			return add(date, {
+				hours: time.slice(0, 2),
+				minutes: time.slice(3),
+			});
+	};
+
 	getEventsForDate(date, username) {
 		if (!this.#dateIsSynced(date)) {
 			this.#syncMonth(date, username);
@@ -104,7 +120,7 @@ class Events {
 		}
 	}
 
-	async addEvent(date, title, desc, flare, username) {
+	async addEvent(date, title, desc, startTime, flare, username) {
 		let hash = this.#getDateHash(date);
 		let id = this.#getID(hash);
 		let event = {
@@ -112,7 +128,7 @@ class Events {
 			title: title,
 			description: desc,
 			flare: flare,
-			date: date,
+			date: this.#addTimeToDate(date, startTime),
 		};
 		if (this.#events[hash] == undefined) this.#events[hash] = [];
 		this.#events[hash]?.push(event);

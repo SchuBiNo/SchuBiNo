@@ -35,7 +35,15 @@ class EventList extends React.Component {
 												</small>
 											</div>
 											<p className='mb-1'>{item.description}</p>
-											<small>Go to task</small>
+											<Link
+												href={{
+													pathname: '/calendar',
+													query: { date: item.date },
+												}}>
+												<a>
+													<small>Go to task</small>
+												</a>
+											</Link>
 										</a>
 									))
 								) : (

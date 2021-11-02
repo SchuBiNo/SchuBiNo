@@ -13,7 +13,7 @@ export default function buildCalendar(value) {
 	return month();
 }
 
-function takeWeek(start = newDate()) {
+function takeWeek(start = new Date()) {
 	let date = startOfISOWeek(startOfDay(start));
 
 	return function () {
