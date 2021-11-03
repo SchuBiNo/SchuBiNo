@@ -68,7 +68,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 Um die benötigten Node.js-Module zu installieren, führen Sie aus:
 
 ```bash
-npm installieren
+npm install
 ## oder
 yarn add
 ```
