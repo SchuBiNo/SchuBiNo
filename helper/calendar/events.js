@@ -19,13 +19,15 @@ class Events {
 
 	constructor() {}
 
-	#syncMonth = (date, username) => {
+	#syncMonth = (date, username, refreshCallback) => {
 		if (username) {
 			console.log(date, username);
 			this.#loadMonthFromDB(date, username).then((result) => {
 				if (result) {
 					console.log(startOfMonth(date));
 					this.#syncedMonths.push(startOfMonth(date));
+
+					refreshCallback();
 				}
 				console.log(result);
 				this.#storeEventsLocally(result);
@@ -110,9 +112,9 @@ class Events {
 		else return date;
 	};
 
-	getEventsForDate(date, username) {
+	getEventsForDate(date, username, refreshCallback) {
 		if (!this.#dateIsSynced(date)) {
-			this.#syncMonth(date, username);
+			this.#syncMonth(date, username, refreshCallback);
 			let hash = this.#getDateHash(date);
 			return this.#events[hash];
 		} else {

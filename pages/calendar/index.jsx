@@ -103,7 +103,7 @@ export default function Calender() {
 					<div className='container mt-4'>
 						<div className='list-group'>
 							{events
-								.getEventsForDate(value, session?.user.name)
+								.getEventsForDate(value, session?.user.name, refresh)
 								?.map((cEvent) => (
 									<a
 										href='#'

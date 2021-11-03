@@ -15,7 +15,7 @@ export default function Page() {
 				including server-side rendering and generating static websites. React is
 				a JavaScript library that is traditionally used to build web
 				applications rendered in the client's browser with JavaScript. <br />
-				The code is available at <a href='#'>GitHub</a>.
+				The code is available on <a href='#'>GitHub</a>.
 				<br />
 				<br />
 			</p>
@@ -113,6 +113,19 @@ export default function Page() {
 				<code>Date</code> or <code>Array</code>.
 				<br />
 				The API will return all events for the requested dates.
+				<br />
+				<br />
+				<p className='fs-4'>Delete Event from Database</p>To delete an event
+				from the database, send a "DELETE" request to the{' '}
+				<code>/api/calendar/delete</code> route.
+				<br />
+				<br />
+				The body of the request must contain valid JSON data.
+				<br /> The body has to include the userId, date and the eventId.
+				<br />
+				<br />
+				<br />
+				<br />
 			</p>
 		</div>
 	);
