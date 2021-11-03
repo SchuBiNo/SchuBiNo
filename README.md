@@ -26,6 +26,30 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
+## Connecting to the Database
+
+This app will sync userdata with a MongoDB Database.
+
+To connect to your database you have to provide a MongodDB Enpoint URI in your `.env` file as follows:
+
+```bash
+MONGO_URI='mongodb+srv://username:password@endpoint'
+```
+
+Replace `username`, `password` and `endpoint` with your MongoDB Database `username`, `password` and `endpoint`.
+
+## Enabeling external Credentials Provider
+
+To enable Google and GitHub as Credential Provider you have to add your API details in the `.env` file as follows:
+
+```bash
+GITHUB_ID= Your ID
+GITHUB_SECRET= Your Secret
+
+GOOGLE_ID= Your ID
+GOOGLE_SECRET= Your Secret
+```
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
