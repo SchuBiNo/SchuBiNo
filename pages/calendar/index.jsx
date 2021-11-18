@@ -46,11 +46,11 @@ export default function Calender() {
 	function eventFormCallback() {
 		setEventForm(false);
 	}
+
 	const refresh = () => {
 		//workaround because you it doesn't update when the same value is set
 		setValue(addMilliseconds(value, 1));
 	};
-
 	return (
 		<>
 			{session ? (

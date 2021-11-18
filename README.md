@@ -1,7 +1,5 @@
 # English
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Installation
 
 To install the required Node.js Modules, run:
@@ -57,9 +55,8 @@ GOOGLE_SECRET= Your Secret
 To learn more about Next.js, take a look at the following resources:
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+<div style="page-break-after: always;"></div>
 
 # Deutsch
 
@@ -69,7 +66,7 @@ Um die benötigten Node.js-Module zu installieren, führen Sie aus:
 
 ```bash
 npm install
-## oder
+# oder
 yarn add
 ```
 
@@ -118,6 +115,3 @@ GOOGLE_SECRET= Your Secret
 Um mehr über Next.js zu erfahren, werfen Sie einen Blick auf die folgenden Ressourcen:
 
 - [Next.js Dokumentation](https://nextjs.org/docs) - erfahren Sie mehr über Next.js Funktionen und API.
-- [Learn Next.js](https://nextjs.org/learn) - ein interaktives Next.js Tutorial.
-
-Sie können sich das [Next.js GitHub Repository](https://github.com/vercel/next.js/) ansehen - Ihr Feedback und Ihre Beiträge sind willkommen!
