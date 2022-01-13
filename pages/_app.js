@@ -19,6 +19,7 @@ function MyApp({ Component, pageProps }) {
 					navs={{
 						Dashboard: '/dashboard',
 						Planner: '/calendar',
+						Todo: '/todo',
 					}}
 					path={path}
 				/>
