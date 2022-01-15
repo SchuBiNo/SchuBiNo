@@ -51,6 +51,10 @@ export default function Calender() {
 		//workaround because you it doesn't update when the same value is set
 		setValue(addMilliseconds(value, 1));
 	};
+
+	if (loading) {
+		return <div className='loader container'></div>;
+	}
 	return (
 		<>
 			{session ? (

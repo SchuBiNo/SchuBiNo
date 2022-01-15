@@ -12,14 +12,18 @@ class TodoForm extends React.Component {
 	}
 
 	handleChange = (event) => {
-		console.log(event.target.value);
 		this.setState({ [event.target.name]: event.target.value });
 	};
 
 	handleSubmit = (event) => {
 		event.preventDefault();
 		const { title, date, completed } = this.state;
-		this.props.callback();
+		this.props.callback({
+			id: 1,
+			title: title,
+			completed: false,
+			date: date,
+		});
 	};
 
 	handleCancel = (event) => {
@@ -39,12 +43,12 @@ class TodoForm extends React.Component {
 							onChange={this.handleChange}
 						/>
 					</div>
-					<div className='mt-4'>
-						<span class='form-text'>Set date.</span>
+					<div className='mt-3'>
+						<span class='form-text'>Date:</span>
 						<input
 							className='form-control form-control-sm'
 							type='date'
-							name='startTime'
+							name='date'
 							onChange={this.handleChange}
 						/>
 					</div>

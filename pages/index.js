@@ -1,8 +1,13 @@
 import { signIn, signOut, useSession } from 'next-auth/client';
 
+import Link from 'next/link';
+
 export default function Page() {
 	const [session, loading] = useSession();
 
+	if (loading) {
+		return <div className='loader container'></div>;
+	}
 	return (
 		<div className='container mt-4'>
 			<h1>Getting Started</h1>
@@ -75,6 +80,12 @@ export default function Page() {
 						<button className='btn btn-primary mt-2' onClick={() => signIn()}>
 							Sign in
 						</button>
+						<br />
+						or
+						<br />
+						<Link href='/auth/signup'>
+							<button className='btn btn-primary mt-2'>Sign up</button>
+						</Link>
 					</>
 				)}
 			</div>

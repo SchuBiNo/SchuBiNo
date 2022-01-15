@@ -30,6 +30,11 @@ const options = {
 	session: {
 		jwt: true,
 	},
+	pages: {
+		signIn: '/auth/signin',
+		error: '/auth/signin',
+		newUser: '/welcome',
+	},
 };
 
 export default function (req, res) {

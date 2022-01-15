@@ -22,11 +22,11 @@ export default async function handler(req, res) {
 			});
 			await newEvent.save().catch((err) => {
 				console.log(err);
-				res.status(500).send('Saving to databse failed!');
+				res.status(500).json({ message: 'Internal server error' });
 			});
 			res.status(200).send('Ok, added to database!✔');
 		}
 	} else {
-		res.status(400).send('Invalid request type!❌');
+		res.status(400).json({ message: 'Invalid request type!❌' });
 	}
 }

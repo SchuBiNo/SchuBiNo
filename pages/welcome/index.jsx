@@ -4,7 +4,7 @@ import AccessDenied from '@/components/accessDenied';
 
 import { useSession } from 'next-auth/client';
 
-export default function Dashboard() {
+export default function Welcome() {
 	const [session, loading] = useSession();
 
 	if (loading) {
@@ -15,10 +15,8 @@ export default function Dashboard() {
 			{session ? (
 				<div>
 					<div className='fs-1 text text-center mt-4'>
-						Welcome back {session?.user.name}!
+						Welcome {session?.user.name}!
 					</div>
-
-					<EventList days={7} amount={5} />
 				</div>
 			) : (
 				<AccessDenied />
