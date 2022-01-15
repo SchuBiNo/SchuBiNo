@@ -28,17 +28,21 @@ class Navbar extends React.Component {
 						</button>
 						<div className='collapse navbar-collapse' id='navbarNavAltMarkup'>
 							<div className='navbar-nav'>
-								{Object.entries(this.props.navs).map((nav) => (
-									<Link href={nav[1]}>
-										<a
-											className={`nav-link ${getActive(
-												this.props.path,
-												nav[1]
-											)}`}>
-											{nav[0]}
-										</a>
-									</Link>
-								))}
+								<ul class='navbar-nav mr-auto'>
+									{Object.entries(this.props.navs).map((nav) => (
+										<li className='nav-item'>
+											<Link href={nav[1]}>
+												<a
+													className={`nav-link ${getActive(
+														this.props.path,
+														nav[1]
+													)}`}>
+													{nav[0]}
+												</a>
+											</Link>
+										</li>
+									))}
+								</ul>
 							</div>
 						</div>
 					</div>

@@ -6,7 +6,16 @@ export default function SignUp() {
 	const [session, loading] = useSession();
 	const router = useRouter();
 
-	function signupFormCallback() {}
+	function signupFormCallback() {
+		router.push(
+			`/auth/signin?callbackUrl=${
+				window.location.protocol +
+				'//' +
+				window.location.hostname +
+				(window.location.port ? ':' + window.location.port : '')
+			}/welcome`
+		);
+	}
 
 	function autoRedirect() {
 		setTimeout(() => router.push('/dashboard'), 5000);
@@ -31,7 +40,6 @@ export default function SignUp() {
 			) : (
 				<div className='container'>
 					<SignUpForm callback={() => signupFormCallback()} />
-
 					<a href='/api/auth/signin' class='alert-link btn btn-primary btn-sm'>
 						Login
 					</a>
