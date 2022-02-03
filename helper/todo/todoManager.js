@@ -20,16 +20,6 @@ class TodoManager {
 	getTodosFromDB = async (username) => {
 		let todos;
 		let userId = await this.#getUserId(username);
-		/* await axios
-			.post('/api/todo/get', {
-				userId: userId,
-			})
-			.then(function (response) {
-				todos = response.data;
-			})
-			.catch(function (error) {
-				console.log(error);
-			}); */
 		let res = await fetch(`/api/todo/get`, {
 			method: 'POST',
 			headers: {
@@ -49,18 +39,6 @@ class TodoManager {
 
 	async addTodo(date, title, username) {
 		let userId = await this.#getUserId(username);
-		/* await axios
-			.post('/api/todo/add', {
-				userId: userId,
-				date: date,
-				title: title,
-			})
-			.then(function (response) {
-				console.log('Response:', response);
-			})
-			.catch(function (error) {
-				console.log(error);
-			}); */
 		await fetch('/api/todo/add', {
 			method: 'POST',
 			headers: {
@@ -83,16 +61,6 @@ class TodoManager {
 	async deleteTodoToDB(username, todoId) {
 		//let success = false;
 		let userId = await this.#getUserId(username);
-		/* await axios
-			.delete('/api/todo/delete', {
-				data: { userId: userId, todoId: todoId },
-			})
-			.then(function (response) {
-				console.log('Response:', response);
-			})
-			.catch(function (error) {
-				console.log(error);
-			}); */
 		await fetch('/api/todo/delete', {
 			method: 'DELETE',
 			headers: {

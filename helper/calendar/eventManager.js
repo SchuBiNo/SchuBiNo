@@ -16,9 +16,11 @@ class EventManager {
 
 	constructor() {}
 
-	#syncMonth = (date, username, refreshCallback) => {
+	#syncMonth = async (date, username, refreshCallback) => {
+		console.log('username:', username);
 		if (username) {
-			this.#loadMonthFromDB(date, username).then((result) => {
+			console.log('syncing month');
+			await this.#loadMonthFromDB(date, username).then((result) => {
 				if (result) {
 					console.log(startOfMonth(date));
 					this.#syncedMonths.push(startOfMonth(date));
@@ -36,14 +38,6 @@ class EventManager {
 
 	#getUserId = async (username) => {
 		let userId;
-		/* await axios
-			.get(`/api/user/${username}/id`)
-			.then(function (response) {
-				userId = response.data.id;
-			})
-			.catch(function (error) {
-				console.log(error);
-			}); */
 		await fetch(`/api/user/${username}/id`)
 			.then((response) => response.json())
 			.then((data) => {
@@ -62,18 +56,7 @@ class EventManager {
 		let days = getDaysInMonth(date);
 		let userId = await this.#getUserId(username);
 		days = [...Array(days).keys()].map((x) => addDays(startDate, x));
-		/* await axios
-			.post('/api/calendar/get', {
-				userId: userId,
-				dates: days,
-			})
-			.then(function (response) {
-				data = response.data;
-			})
-			.catch(function (error) {
-				console.log(error);
-			}); */
-		await fetch('/api/calendar/get', {
+		let res = await fetch('/api/calendar/get', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -82,13 +65,11 @@ class EventManager {
 				userId: userId,
 				dates: days,
 			}),
-		})
-			.then((response) => {
-				data = response.data;
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		}).catch((error) => {
+			console.log(error);
+		});
+		console.log(res);
+		data = await res.json();
 		return data;
 	};
 
@@ -132,10 +113,12 @@ class EventManager {
 		else return date;
 	};
 
-	getEventsForDate(date, username, refreshCallback) {
+	async getEventsForDate(date, username, refreshCallback = () => {}) {
+		console.log(date);
 		if (!this.#dateIsSynced(date)) {
-			this.#syncMonth(date, username, refreshCallback);
-			let hash = this.#getDateHash(date);
+			console.log('not synced');
+			await this.#syncMonth(date, username, refreshCallback);
+			let hash = await this.#getDateHash(date);
 			return this.#events[hash];
 		} else {
 			let hash = this.#getDateHash(date);
@@ -156,18 +139,6 @@ class EventManager {
 		if (this.#events[hash] == undefined) this.#events[hash] = [];
 		this.#events[hash]?.push(event);
 		let userId = await this.#getUserId(username);
-		/* await axios
-			.post('/api/calendar/add', {
-				userId: userId,
-				date: date,
-				events: this.#events[hash],
-			})
-			.then(function (response) {
-				console.log('Response:', response);
-			})
-			.catch(function (error) {
-				console.log(error);
-			}); */
 		await fetch('/api/calendar/add', {
 			method: 'POST',
 			headers: {
@@ -191,18 +162,6 @@ class EventManager {
 		let success = false;
 		let hash = this.#getDateHash(date);
 		let userId = await this.#getUserId(username);
-		/* await axios
-			.delete('/api/calendar/delete', {
-				data: { userId: userId, date: date, eventId: eventId },
-			})
-			.then(function (response) {
-				console.log('Response:', response);
-				success = true;
-			})
-			.catch(function (error) {
-				console.log(error);
-			}); */
-
 		await fetch('/api/calendar/delete', {
 			method: 'DELETE',
 			headers: {

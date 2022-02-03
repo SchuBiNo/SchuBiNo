@@ -7,14 +7,26 @@ import { parseISO } from 'date-fns';
 class EventList extends React.Component {
 	constructor(props) {
 		super(props);
-		this.listEvents = loadNextEvents(
+		this.state = {
+			listEvents: [],
+			loading: true,
+		};
+	}
+
+	componentDidMount() {
+		this.getEvents();
+	}
+	async getEvents() {
+		let events = await loadNextEvents(
 			this.props.days,
 			new Date(),
-			this.props.amount
+			this.props.amount,
+			this.props.session?.user.name
 		);
+		console.log(events);
+		this.setState({ listEvents: events, loading: false });
 	}
 	render() {
-		console.log(this.listEvents);
 		return (
 			<div>
 				<div className='container mt-4'>
@@ -22,9 +34,14 @@ class EventList extends React.Component {
 						<div className='card-header'>Your Tasks</div>
 						<div className='card-body text-dark'>
 							<div className='list-group'>
-								{this.listEvents.length ? (
-									this.listEvents.map((item) => (
-										<a
+								{this.state.loading ? (
+									<div className='loader container'></div>
+								) : (
+									<></>
+								)}
+								{this.state.listEvents.length ? (
+									this.state.listEvents.map((item) => (
+										<div
 											key={item.id}
 											className='list-group-item list-group-item-action'
 											aria-current='true'>
@@ -44,7 +61,7 @@ class EventList extends React.Component {
 													<small>Go to task</small>
 												</a>
 											</Link>
-										</a>
+										</div>
 									))
 								) : (
 									<p className='card-text'>

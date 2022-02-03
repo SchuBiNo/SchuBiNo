@@ -17,7 +17,7 @@ export default function Dashboard() {
 						Welcome back {session?.user.name}!
 					</div>
 
-					<EventList days={7} amount={5} />
+					<EventList days={7} amount={5} session={session} />
 				</div>
 			) : (
 				<AccessDenied />

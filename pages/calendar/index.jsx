@@ -19,14 +19,21 @@ import AccessDenied from '@/components/accessDenied';
 
 export default function Calender() {
 	const router = useRouter();
+
+	const { data: session, status } = useSession();
 	const [calendar, setCalendar] = useState([]);
 	const [value, setValue] = useState(
 		router.query.date ? parseISO(router.query.date) : new Date()
 	);
+	const [events, setEvents] = useState(['loading']);
 	const [hasEventForm, setEventForm] = useState(false);
-	const { data: session, status } = useSession();
 
 	useEffect(() => {
+		getEventsForDay();
+	}, [session]);
+
+	useEffect(() => {
+		getEventsForDay();
 		setCalendar(buildCalendar(value));
 	}, [value]);
 
@@ -44,6 +51,49 @@ export default function Calender() {
 
 	function eventFormCallback() {
 		setEventForm(false);
+	}
+
+	function getEventsForDay() {
+		setEvents(['loading']);
+		eventManager
+			.getEventsForDate(value, session?.user.name, refresh)
+			.then((events) => {
+				events = events?.map((cEvent) => (
+					<a
+						key={cEvent.id}
+						href='#'
+						className='list-group-item list-group-item-action'>
+						<div className='d-flex w-100 justify-content-between'>
+							<h5 className='mb-1'>{cEvent.title}</h5>
+							<small>
+								{getHours(parseISO(cEvent.date))}:
+								{getMinutes(parseISO(cEvent.date))}
+							</small>
+						</div>
+						<p className='mb-1'>{cEvent.description}</p>
+						<p>
+							<span className='badge bg-primary rounded-pill'>
+								{cEvent.flare}
+							</span>
+						</p>
+						<small>
+							edit |{' '}
+							<a
+								onClick={() => {
+									eventManager.deleteEvent(
+										value,
+										session?.user.name,
+										cEvent.id,
+										refresh
+									);
+								}}>
+								delete
+							</a>
+						</small>
+					</a>
+				));
+				setEvents(events);
+			});
 	}
 
 	const refresh = () => {
@@ -106,42 +156,15 @@ export default function Calender() {
 
 					<div className='container mt-4'>
 						<div className='list-group'>
-							{eventManager
-								.getEventsForDate(value, session?.user.name, refresh)
-								?.map((cEvent) => (
-									<a
-										key={cEvent.id}
-										href='#'
-										className='list-group-item list-group-item-action'>
-										<div className='d-flex w-100 justify-content-between'>
-											<h5 className='mb-1'>{cEvent.title}</h5>
-											<small>
-												{getHours(parseISO(cEvent.date))}:
-												{getMinutes(parseISO(cEvent.date))}
-											</small>
-										</div>
-										<p className='mb-1'>{cEvent.description}</p>
-										<p>
-											<span className='badge bg-primary rounded-pill'>
-												{cEvent.flare}
-											</span>
-										</p>
-										<small>
-											edit |{' '}
-											<a
-												onClick={() => {
-													eventManager.deleteEvent(
-														value,
-														session?.user.name,
-														cEvent.id,
-														refresh
-													);
-												}}>
-												delete
-											</a>
-										</small>
-									</a>
-								)) ?? <a>Nothing to do</a>}
+							{(
+								<>
+									{events?.includes('loading') ? (
+										<div className='loader container'></div>
+									) : (
+										events
+									)}
+								</>
+							) ?? <a>Nothing to do</a>}
 							{showEventForm()}
 						</div>
 						<div className='d-grid gap-2 d-md-flex justify-content-md-end mt-3'>
