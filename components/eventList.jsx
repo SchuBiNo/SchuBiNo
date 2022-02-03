@@ -1,7 +1,6 @@
 import React from 'react';
 import { loadNextEvents } from '@/helper/eventList/getNextEvents';
 import { getDayDeltaText } from '@/helper/eventList/getDayDelta';
-import { Card } from 'react-bootstrap';
 import Link from 'next/link';
 import { parseISO } from 'date-fns';
 
@@ -26,6 +25,7 @@ class EventList extends React.Component {
 								{this.listEvents.length ? (
 									this.listEvents.map((item) => (
 										<a
+											key={item.id}
 											className='list-group-item list-group-item-action'
 											aria-current='true'>
 											<div className='d-flex w-100 justify-content-between'>

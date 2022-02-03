@@ -1,5 +1,5 @@
 import React from 'react';
-import { getProviders, signIn } from 'next-auth/client';
+import { getProviders, signIn } from 'next-auth/react';
 
 class SignInForm extends React.Component {
 	constructor(props) {

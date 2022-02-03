@@ -1,6 +1,4 @@
 import React from 'react';
-import events from '@/helper/calendar/eventManager';
-import axios from 'axios';
 
 class SignUpForm extends React.Component {
 	constructor(props) {
@@ -25,16 +23,20 @@ class SignUpForm extends React.Component {
 			this.setState({ message: 'Passwords do not match' });
 			return;
 		}
-		await axios
-			.post('/api/auth/signup', {
+		await fetch('/api/auth/signup', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
 				name,
 				email,
 				password,
-			})
-			.catch((error) => {
-				console.log(error.response?.data.message);
-				this.setState({ message: error.response?.data.message });
-			});
+			}),
+		}).catch((error) => {
+			console.log(error.response?.data.message);
+			this.setState({ message: error.response?.data.message });
+		});
 		this.props.callback();
 	};
 
@@ -47,47 +49,49 @@ class SignUpForm extends React.Component {
 			<div>
 				<a className='text-danger'>{this.state.message}</a>
 				<form onSubmit={this.handleSubmit}>
-					<div class='form-group'>
-						<label for='name'>Name</label>
+					<div className='form-group'>
+						<label htmlFor='name'>Name</label>
 						<input
 							type='text'
 							id='name'
 							name='name'
 							required
-							class='form-control'
+							className='form-control'
 							onChange={this.handleChange}></input>
 					</div>
-					<div class='form-group'>
-						<label for='email'>Email</label>
+					<div className='form-group'>
+						<label htmlFor='email'>Email</label>
 						<input
 							type='email'
 							id='email'
 							name='email'
 							required
-							class='form-control'
+							className='form-control'
 							onChange={this.handleChange}></input>
 					</div>
-					<div class='form-group'>
-						<label for='password'>Password</label>
+					<div className='form-group'>
+						<label htmlFor='password'>Password</label>
 						<input
 							type='password'
 							id='password'
 							name='password'
 							required
-							class='form-control'
+							className='form-control'
 							onChange={this.handleChange}></input>
 					</div>
-					<div class='form-group'>
-						<label for='confirmPassword'>Confirm Password</label>
+					<div className='form-group'>
+						<label htmlFor='confirmPassword'>Confirm Password</label>
 						<input
 							type='password'
 							id='confirmPassword'
 							name='confirmPassword'
 							required
-							class='form-control'
+							className='form-control'
 							onChange={this.handleChange}></input>
 					</div>
-					<button class='btn btn-primary mt-3 mb-4 form-control' type='submit'>
+					<button
+						className='btn btn-primary mt-3 mb-4 form-control'
+						type='submit'>
 						Register
 					</button>
 				</form>

@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import {
 	format,
@@ -8,7 +7,7 @@ import {
 	parseISO,
 	addMilliseconds,
 } from 'date-fns';
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 import buildCalendar from '@/helper/calendar/buildCalender';
@@ -25,7 +24,7 @@ export default function Calender() {
 		router.query.date ? parseISO(router.query.date) : new Date()
 	);
 	const [hasEventForm, setEventForm] = useState(false);
-	const [session, loading] = useSession();
+	const { data: session, status } = useSession();
 
 	useEffect(() => {
 		setCalendar(buildCalendar(value));
@@ -52,7 +51,7 @@ export default function Calender() {
 		setValue(addMilliseconds(value, 1));
 	};
 
-	if (loading) {
+	if (status === 'loading') {
 		return <div className='loader container'></div>;
 	}
 	return (
@@ -79,10 +78,11 @@ export default function Calender() {
 								</button>
 							</div>
 							<div className='card-body'>
-								{calendar.map((week) => (
-									<div className='row'>
-										{week.map((day) => (
+								{calendar.map((week, i) => (
+									<div className='row' key={i}>
+										{week.map((day, j) => (
 											<div
+												key={j}
 												onClick={() => setValue(day)}
 												className={`col card ${dayStyles(day, value)} `}>
 												<div className='card-body text-center fw-bold'>
@@ -110,6 +110,7 @@ export default function Calender() {
 								.getEventsForDate(value, session?.user.name, refresh)
 								?.map((cEvent) => (
 									<a
+										key={cEvent.id}
 										href='#'
 										className='list-group-item list-group-item-action'>
 										<div className='d-flex w-100 justify-content-between'>

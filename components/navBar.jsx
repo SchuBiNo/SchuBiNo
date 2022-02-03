@@ -1,5 +1,4 @@
 import React from 'react';
-import { signIn } from 'next-auth/client';
 import { getActive } from '@/helper/navbar/getNavbarActive';
 import Link from 'next/link';
 class Navbar extends React.Component {
@@ -28,9 +27,9 @@ class Navbar extends React.Component {
 						</button>
 						<div className='collapse navbar-collapse' id='navbarNavAltMarkup'>
 							<div className='navbar-nav'>
-								<ul class='navbar-nav mr-auto'>
+								<ul className='navbar-nav mr-auto'>
 									{Object.entries(this.props.navs).map((nav) => (
-										<li className='nav-item'>
+										<li className='nav-item' key={nav[0]}>
 											<Link href={nav[1]}>
 												<a
 													className={`nav-link ${getActive(

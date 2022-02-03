@@ -1,5 +1,5 @@
 import React from 'react';
-import { signIn } from 'next-auth/client';
+import { signIn } from 'next-auth/react';
 
 class AccessDenied extends React.Component {
 	render() {

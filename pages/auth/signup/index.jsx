@@ -1,9 +1,10 @@
 import SignUpForm from '@/components/signupForm';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 export default function SignUp() {
-	const [session, loading] = useSession();
+	const { data: session, status } = useSession();
 	const router = useRouter();
 
 	function signupFormCallback() {
@@ -21,7 +22,7 @@ export default function SignUp() {
 		setTimeout(() => router.push('/dashboard'), 5000);
 	}
 
-	if (loading) {
+	if (status === 'loading') {
 		return <div className='loader container'></div>;
 	}
 	return (
@@ -32,7 +33,11 @@ export default function SignUp() {
 						<h1>You are already logged in!</h1>
 						<p>
 							You will be automatically redirected in 5 seconds or
-							<a href='/dashboard'> Click here</a>!
+							<Link href='/dashboard' passHref>
+								{' '}
+								Click here
+							</Link>
+							!
 						</p>
 						{autoRedirect()}
 					</div>
@@ -40,7 +45,9 @@ export default function SignUp() {
 			) : (
 				<div className='container'>
 					<SignUpForm callback={() => signupFormCallback()} />
-					<a href='/api/auth/signin' class='alert-link btn btn-primary btn-sm'>
+					<a
+						href='/api/auth/signin'
+						className='alert-link btn btn-primary btn-sm'>
 						Login
 					</a>
 				</div>

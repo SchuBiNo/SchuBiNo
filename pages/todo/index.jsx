@@ -1,7 +1,5 @@
-import { useSession } from 'next-auth/client';
-import React, { useState, useEffect } from 'react';
-import todoManager from '@/helper/todo/todoManager';
-
+import { useSession } from 'next-auth/react';
+import React, { useState } from 'react';
 import TodoForm from '@/components/todoForm';
 
 import AccessDenied from '@/components/accessDenied';
@@ -9,7 +7,7 @@ import AccessDenied from '@/components/accessDenied';
 var runningTimeouts = [];
 
 export default function Todo() {
-	const [session, loading] = useSession();
+	const { data: session, status } = useSession();
 	const [todos, setTodos] = useState([
 		{
 			id: 1,
@@ -53,7 +51,7 @@ export default function Todo() {
 		if (value) setTodos([...todos, value]);
 	}
 
-	if (loading) {
+	if (status === 'loading') {
 		return <div className='loader container'></div>;
 	}
 	return (

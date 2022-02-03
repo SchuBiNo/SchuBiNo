@@ -58,7 +58,7 @@ class EventForm extends React.Component {
 						/>
 					</div>
 					<div className='mt-4'>
-						<span class='form-text'>Set start & end time.</span>
+						<span className='form-text'>Set start & end time.</span>
 						<input
 							className='form-control form-control-sm'
 							type='time'
@@ -73,7 +73,7 @@ class EventForm extends React.Component {
 						/>
 					</div>
 					<div className=' mt-4'>
-						<span class='form-text'>Set flare and color.</span>
+						<span className='form-text'>Set flare and color.</span>
 						<input
 							className='form-control'
 							type='text'

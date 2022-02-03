@@ -1,5 +1,4 @@
 import React from 'react';
-import events from '@/helper/calendar/eventManager';
 
 class TodoForm extends React.Component {
 	constructor(props) {
@@ -44,7 +43,7 @@ class TodoForm extends React.Component {
 						/>
 					</div>
 					<div className='mt-3'>
-						<span class='form-text'>Date:</span>
+						<span className='form-text'>Date:</span>
 						<input
 							className='form-control form-control-sm'
 							type='date'

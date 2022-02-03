@@ -1,11 +1,11 @@
-import { signIn, signOut, useSession } from 'next-auth/client';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 import Link from 'next/link';
 
 export default function Page() {
-	const [session, loading] = useSession();
+	const { data: session, status } = useSession();
 
-	if (loading) {
+	if (status === 'loading') {
 		return <div className='loader container'></div>;
 	}
 	return (
@@ -19,7 +19,8 @@ export default function Page() {
 				Next. js is a React framework that enables several extra features,
 				including server-side rendering and generating static websites. React is
 				a JavaScript library that is traditionally used to build web
-				applications rendered in the client's browser with JavaScript. <br />
+				applications rendered in the client&apos;s browser with JavaScript.{' '}
+				<br />
 				The code is available on <a href='#'>GitHub</a>.
 				<br />
 				<br />
@@ -83,7 +84,7 @@ export default function Page() {
 						<br />
 						or
 						<br />
-						<Link href='/auth/signup'>
+						<Link href='/auth/signup' passHref>
 							<button className='btn btn-primary mt-2'>Sign up</button>
 						</Link>
 					</>
@@ -94,14 +95,15 @@ export default function Page() {
 			<br />
 			<p>
 				<p className='fs-4'>Get UserID</p>
-				The userID can be obtained by sending a "GET" request to the &nbsp;
+				The userID can be obtained by sending a &quot;GET&quot; request to the
+				&nbsp;
 				<code>/api/user/[name]/id</code> route, where &nbsp;<code>[name]</code>
 				&nbsp; is the username of the user whose userID you want to request.
 				<br />
 				<br />
 				<p className='fs-4'>Add Event to Database</p>
-				Events can be added to the database by sending a "POST" request to the{' '}
-				<code>/api/calendar/add</code> route.
+				Events can be added to the database by sending a &quot;POST&quot;
+				request to the <code>/api/calendar/add</code> route.
 				<br />
 				The body of the request must contain valid JSON data.
 				<br /> The body has to include the userId of type <code>String</code>,
@@ -110,13 +112,13 @@ export default function Page() {
 				<br />
 				<br />
 				<p className='fs-4'>Get Events from Database</p>To retrieve events from
-				the database, send a "POST" request to the{' '}
+				the database, send a &quot;POST&quot; request to the{' '}
 				<code>/api/calendar/get</code> route.
 				<br />
-				This API route currently uses "POST" requests when it should be a "GET"
-				request, the reason for this is that "GET" requests do not support a
-				JSON body and request parameters are not suitable for this type of
-				request.
+				This API route currently uses &quot;POST&quot; requests when it should
+				be a &quot;GET&quot; request, the reason for this is that
+				&quot;GET&quot; requests do not support a JSON body and request
+				parameters are not suitable for this type of request.
 				<br />
 				<br />
 				The body of the request must contain valid JSON data.
@@ -127,7 +129,7 @@ export default function Page() {
 				<br />
 				<br />
 				<p className='fs-4'>Delete Event from Database</p>To delete an event
-				from the database, send a "DELETE" request to the{' '}
+				from the database, send a &quot;DELETE&quot; request to the{' '}
 				<code>/api/calendar/delete</code> route.
 				<br />
 				<br />

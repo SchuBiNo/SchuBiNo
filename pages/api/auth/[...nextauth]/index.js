@@ -1,9 +1,12 @@
 import NextAuth from 'next-auth';
-import Providers from 'next-auth/providers';
+import GitHubProvider from 'next-auth/providers/github';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
+//import MongoDB from 'next-auth/adapters/mongo';
 import { authenticateLogin } from '@/helper/authenticateCredentials';
-const options = {
+export default NextAuth({
 	providers: [
-		Providers.Credentials({
+		CredentialsProvider({
 			name: 'Credentials',
 			credentials: {
 				email: {
@@ -18,11 +21,11 @@ const options = {
 				return user;
 			},
 		}),
-		Providers.GitHub({
+		GitHubProvider({
 			clientId: process.env.GITHUB_ID,
 			clientSecret: process.env.GITHUB_SECRET,
 		}),
-		Providers.Google({
+		GoogleProvider({
 			clientId: process.env.GOOGLE_ID,
 			clientSecret: process.env.GOOGLE_SECRET,
 		}),
@@ -30,31 +33,23 @@ const options = {
 	session: {
 		jwt: true,
 	},
+	secret: process.env.NEXTAUTH_SECRET,
 	pages: {
 		signIn: '/auth/signin',
 		error: '/auth/signin',
 		newUser: '/welcome',
 	},
 	callbacks: {
-		signIn: async (user, account, profile) => {
-			console.log('signIn:', user, account, profile);
+		async signIn({ user, account, profile, email, credentials }) {
+			if (account.provider === 'google') {
+				return profile.email_verified;
+			}
 			return user;
 		},
-		redirect: async (url, baseUrl) => {
-			if (url.startsWith(baseUrl)) return url;
-			// Allows relative callback URLs
-			else if (url.startsWith('/')) return new URL(url, baseUrl).toString();
-			return baseUrl;
-		},
-	},
-	events: {
-		createUser: async (user, account, profile) => {
-			console.log('createUser:', user, account, profile);
-			return user;
-		},
-	},
-};
 
-export default function (req, res) {
-	return NextAuth(req, res, options);
-}
+		async redirect({ url, baseUrl }) {
+			return url.query?.callbackUrl || baseUrl;
+		},
+	},
+	events: {},
+});

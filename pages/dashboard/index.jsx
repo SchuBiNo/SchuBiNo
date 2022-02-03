@@ -1,13 +1,12 @@
-import Link from 'next/link';
 import EventList from '@/components/eventList';
 import AccessDenied from '@/components/accessDenied';
 
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 
 export default function Dashboard() {
-	const [session, loading] = useSession();
+	const { data: session, status } = useSession();
 
-	if (loading) {
+	if (status === 'loading') {
 		return <div className='loader container'></div>;
 	}
 	return (

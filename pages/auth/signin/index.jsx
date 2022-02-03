@@ -1,16 +1,11 @@
-import {
-	useSession,
-	getProviders,
-	signIn,
-	signOut,
-	getCsrfToken,
-} from 'next-auth/client';
+import { useSession, getCsrfToken } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import SignInForm from '@/components/signinForm';
 
 export default function SignIn({ csrfToken }) {
-	const [session, loading] = useSession();
+	const { data: session, status } = useSession();
 	const router = useRouter();
 
 	function signinFormCallback() {}
@@ -19,7 +14,7 @@ export default function SignIn({ csrfToken }) {
 		setTimeout(() => router.push('/dashboard'), 5000);
 	}
 
-	if (loading) {
+	if (status === 'loading') {
 		return <div className='loader container'></div>;
 	}
 	return (
@@ -30,7 +25,10 @@ export default function SignIn({ csrfToken }) {
 						<h1>You are already logged in!</h1>
 						<p>
 							You will be automatically redirected in 5 seconds or
-							<a href='/dashboard'> Click here</a>!
+							<Link href='/dashboard' passHref>
+								Click here
+							</Link>
+							!
 						</p>
 						{autoRedirect()}
 					</div>
