@@ -2,18 +2,15 @@ import stringHash from 'string-hash';
 import {
 	add,
 	addDays,
-	addMonths,
 	compareAsc,
 	format,
 	getDaysInMonth,
 	startOfDay,
 	parseISO,
 	startOfMonth,
-	subMonths,
 } from 'date-fns';
-import axios from 'axios';
 
-class Events {
+class EventManager {
 	#events = {};
 	#syncedMonths = [];
 
@@ -21,7 +18,6 @@ class Events {
 
 	#syncMonth = (date, username, refreshCallback) => {
 		if (username) {
-			console.log(date, username);
 			this.#loadMonthFromDB(date, username).then((result) => {
 				if (result) {
 					console.log(startOfMonth(date));
@@ -40,12 +36,20 @@ class Events {
 
 	#getUserId = async (username) => {
 		let userId;
-		await axios
+		/* await axios
 			.get(`/api/user/${username}/id`)
 			.then(function (response) {
 				userId = response.data.id;
 			})
 			.catch(function (error) {
+				console.log(error);
+			}); */
+		await fetch(`/api/user/${username}/id`)
+			.then((response) => response.json())
+			.then((data) => {
+				userId = data.id;
+			})
+			.catch((error) => {
 				console.log(error);
 			});
 
@@ -58,7 +62,7 @@ class Events {
 		let days = getDaysInMonth(date);
 		let userId = await this.#getUserId(username);
 		days = [...Array(days).keys()].map((x) => addDays(startDate, x));
-		await axios
+		/* await axios
 			.post('/api/calendar/get', {
 				userId: userId,
 				dates: days,
@@ -67,6 +71,22 @@ class Events {
 				data = response.data;
 			})
 			.catch(function (error) {
+				console.log(error);
+			}); */
+		await fetch('/api/calendar/get', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				userId: userId,
+				dates: days,
+			}),
+		})
+			.then((response) => {
+				data = response.data;
+			})
+			.catch((error) => {
 				console.log(error);
 			});
 		return data;
@@ -89,7 +109,7 @@ class Events {
 	};
 
 	#storeEventsLocally = (events) => {
-		events.forEach((day) => {
+		events?.forEach((day) => {
 			console.log(day.date);
 			let hash = this.#getDateHash(parseISO(day.date));
 			this.#events[hash] = [...day.events];
@@ -136,7 +156,7 @@ class Events {
 		if (this.#events[hash] == undefined) this.#events[hash] = [];
 		this.#events[hash]?.push(event);
 		let userId = await this.#getUserId(username);
-		await axios
+		/* await axios
 			.post('/api/calendar/add', {
 				userId: userId,
 				date: date,
@@ -147,6 +167,23 @@ class Events {
 			})
 			.catch(function (error) {
 				console.log(error);
+			}); */
+		await fetch('/api/calendar/add', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				userId: userId,
+				date: date,
+				events: this.#events[hash],
+			}),
+		})
+			.then((response) => {
+				console.log('Response:', response);
+			})
+			.catch((error) => {
+				console.log(error);
 			});
 	}
 
@@ -154,7 +191,7 @@ class Events {
 		let success = false;
 		let hash = this.#getDateHash(date);
 		let userId = await this.#getUserId(username);
-		await axios
+		/* await axios
 			.delete('/api/calendar/delete', {
 				data: { userId: userId, date: date, eventId: eventId },
 			})
@@ -163,6 +200,25 @@ class Events {
 				success = true;
 			})
 			.catch(function (error) {
+				console.log(error);
+			}); */
+
+		await fetch('/api/calendar/delete', {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				userId: userId,
+				date: date,
+				eventId: eventId,
+			}),
+		})
+			.then((response) => {
+				console.log('Response:', response);
+				success = true;
+			})
+			.catch((error) => {
 				console.log(error);
 			});
 		if (success) {
@@ -180,11 +236,11 @@ class Events {
 	}
 }
 
-let events;
+let eventManager;
 
 (() => {
-	if (events instanceof Events) return;
-	else events = new Events();
+	if (eventManager instanceof EventManager) return;
+	else eventManager = new EventManager();
 })();
 
-export default events;
+export default eventManager;

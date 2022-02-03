@@ -1,5 +1,5 @@
 import React from 'react';
-import events from '@/helper/calendar/events';
+import events from '@/helper/calendar/eventManager';
 import axios from 'axios';
 
 class SignUpForm extends React.Component {

@@ -35,6 +35,24 @@ const options = {
 		error: '/auth/signin',
 		newUser: '/welcome',
 	},
+	callbacks: {
+		signIn: async (user, account, profile) => {
+			console.log('signIn:', user, account, profile);
+			return user;
+		},
+		redirect: async (url, baseUrl) => {
+			if (url.startsWith(baseUrl)) return url;
+			// Allows relative callback URLs
+			else if (url.startsWith('/')) return new URL(url, baseUrl).toString();
+			return baseUrl;
+		},
+	},
+	events: {
+		createUser: async (user, account, profile) => {
+			console.log('createUser:', user, account, profile);
+			return user;
+		},
+	},
 };
 
 export default function (req, res) {

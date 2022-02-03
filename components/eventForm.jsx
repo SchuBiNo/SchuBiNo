@@ -1,5 +1,5 @@
 import React from 'react';
-import events from '@/helper/calendar/events';
+import events from '@/helper/calendar/eventManager';
 
 class EventForm extends React.Component {
 	constructor(props) {

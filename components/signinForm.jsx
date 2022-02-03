@@ -24,7 +24,7 @@ class SignInForm extends React.Component {
 	render() {
 		return (
 			<div>
-				<a className=' text-danger'>
+				<a className='text-danger'>
 					{this.props.error && <SignInError error={this.props.error} />}
 				</a>
 				<form

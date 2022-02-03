@@ -1,4 +1,4 @@
-import events from '../calendar/events';
+import events from '../calendar/eventManager';
 import { addDays } from 'date-fns';
 
 export function loadNextEvents(days, startDay, amountToReturn) {

@@ -13,7 +13,7 @@ import { useRouter } from 'next/router';
 
 import buildCalendar from '@/helper/calendar/buildCalender';
 import dayStyles from '@/helper/calendar/styleCalendar';
-import events from '@/helper/calendar/events';
+import eventManager from '@/helper/calendar/eventManager';
 
 import EventForm from '@/components/eventForm';
 import AccessDenied from '@/components/accessDenied';
@@ -88,7 +88,7 @@ export default function Calender() {
 												<div className='card-body text-center fw-bold'>
 													{format(day, 'dd-MM')}
 													<span> </span>
-													{events.dateHasEvents(day) ? (
+													{eventManager.dateHasEvents(day) ? (
 														<span className='badge rounded-pill bg-primary'>
 															📑
 														</span>
@@ -106,7 +106,7 @@ export default function Calender() {
 
 					<div className='container mt-4'>
 						<div className='list-group'>
-							{events
+							{eventManager
 								.getEventsForDate(value, session?.user.name, refresh)
 								?.map((cEvent) => (
 									<a
@@ -129,7 +129,7 @@ export default function Calender() {
 											edit |{' '}
 											<a
 												onClick={() => {
-													events.deleteEvent(
+													eventManager.deleteEvent(
 														value,
 														session?.user.name,
 														cEvent.id,
