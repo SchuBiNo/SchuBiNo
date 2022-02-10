@@ -35,7 +35,7 @@ class SignInForm extends React.Component {
 						<input
 							name='csrfToken'
 							type='hidden'
-							defaultValue={this.props.csrfToken}
+							//defaultValue={this.props.csrfToken}
 						/>
 						<label htmlFor='email'>Email</label>
 						<input
@@ -44,7 +44,8 @@ class SignInForm extends React.Component {
 							name='email'
 							required
 							className='form-control'
-							onChange={this.handleChange}></input>
+							//onChange={this.handleChange}
+						></input>
 					</div>
 					<div className='form-group'>
 						<label htmlFor='password'>Password</label>
@@ -54,7 +55,8 @@ class SignInForm extends React.Component {
 							name='password'
 							required
 							className='form-control'
-							onChange={this.handleChange}></input>
+							//onChange={this.handleChange}
+						></input>
 					</div>
 					<button className='btn btn-primary mt-3 form-control' type='submit'>
 						Signin

@@ -1,5 +1,5 @@
 import { hash } from 'bcrypt';
-import { dbConnect } from '@/helper/dbConnect';
+import { dbConnect } from '@/helper/database/dbConnect';
 import UserModel from '@/models/User';
 async function handler(req, res) {
 	//Only POST mothod is accepted

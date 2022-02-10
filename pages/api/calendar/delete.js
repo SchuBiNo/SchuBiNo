@@ -1,5 +1,5 @@
 import CalEvent from '@/models/CalEvent';
-import { dbConnect } from '@/helper/dbConnect';
+import { dbConnect } from '@/helper/database/dbConnect';
 
 export default async function handler(req, res) {
 	if (req.method === 'DELETE') {

@@ -1,5 +1,5 @@
 import Todo from '@/models/Todo';
-import { dbConnect } from '@/helper/dbConnect';
+import { dbConnect } from '@/helper/database/dbConnect';
 
 export default async function handler(req, res) {
 	if (req.method === 'POST') {
