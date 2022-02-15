@@ -5,12 +5,13 @@ class TodoManager {
 
 	#getUserId = async (username) => {
 		let userId;
-		await axios
-			.get(`/api/user/${username}/id`)
-			.then(function (response) {
-				userId = response.data.id;
+		await fetch(`/api/user/${username}/id`, {
+			method: 'GET',
+		})
+			.then((res) => {
+				userId = res.data.id;
 			})
-			.catch(function (error) {
+			.catch((error) => {
 				console.log(error);
 			});
 

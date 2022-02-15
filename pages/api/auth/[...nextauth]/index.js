@@ -15,6 +15,13 @@ export default NextAuth({
 	callbacks: {
 		signIn,
 		//redirect,
+		jwt: async ({ token, user, req, res }) => {
+			console.log('jwt');
+			console.log(token);
+			console.log(user);
+			console.log(req);
+			console.log(res);
+		},
 	},
 	session: { jwt: true },
 	secret: process.env.NEXTAUTH_SECRET,

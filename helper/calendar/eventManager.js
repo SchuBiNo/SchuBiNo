@@ -13,6 +13,17 @@ import {
 class EventManager {
 	#events = {};
 	#syncedMonths = [];
+	#vEvent = {
+		UID: null,
+		DTSTAMP: null,
+		DTSTART: null,
+		DTEND: null,
+		SUMMARY: null,
+		DESCRIPTION: null,
+		LOCATION: null,
+		CLASS: null,
+
+	}
 
 	constructor() {}
 

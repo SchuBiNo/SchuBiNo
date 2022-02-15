@@ -5,7 +5,7 @@ import '../styles/globals.css';
 import Script from 'next/script';
 import { SessionProvider } from 'next-auth/react';
 
-function MyApp({ Component, session, ...pageProps }) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 	const path = typeof window !== 'undefined' ? window.location.pathname : '/';
 
 	return (

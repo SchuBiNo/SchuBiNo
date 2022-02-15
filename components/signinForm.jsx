@@ -10,6 +10,7 @@ class SignInForm extends React.Component {
 			providers: [],
 			message: '',
 		};
+		console.log(this.props.csrfToken);
 		getProviders().then((value) => this.setState({ providers: value }));
 	}
 
@@ -27,38 +28,36 @@ class SignInForm extends React.Component {
 				<a className='text-danger'>
 					{this.props.error && <SignInError error={this.props.error} />}
 				</a>
-				<form
-					className='mb-4 mt-4'
-					method='post'
-					action='/api/auth/callback/credentials'>
+				<form className='mb-4 mt-4' method='post'>
 					<div className='form-group'>
-						<input
-							name='csrfToken'
-							type='hidden'
-							//defaultValue={this.props.csrfToken}
-						/>
-						<label htmlFor='email'>Email</label>
+						<label htmlFor='Email'>Email</label>
 						<input
 							type='email'
 							id='email'
 							name='email'
 							required
 							className='form-control'
-							//onChange={this.handleChange}
-						></input>
+							onChange={this.handleChange}></input>
 					</div>
 					<div className='form-group'>
-						<label htmlFor='password'>Password</label>
+						<label htmlFor='Password'>Password</label>
 						<input
 							type='password'
 							id='password'
 							name='password'
 							required
 							className='form-control'
-							//onChange={this.handleChange}
-						></input>
+							onChange={this.handleChange}></input>
 					</div>
-					<button className='btn btn-primary mt-3 form-control' type='submit'>
+					<button
+						className='btn btn-primary mt-3 form-control'
+						type='submit'
+						onClick={() =>
+							signIn('credentials', {
+								email: this.state.email,
+								password: this.state.password,
+							})
+						}>
 						Signin
 					</button>
 				</form>

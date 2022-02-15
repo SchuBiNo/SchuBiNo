@@ -11,10 +11,18 @@ const credentialsParams = {
 };
 
 export default CredentialsProvider({
-	name: 'Credentials',
-	async authorize(credentials, req) {
-		const user = await authenticateLogin(credentials);
-		return user;
+	name: 'credentials',
+	credentials: {
+		email: {
+			label: 'Email',
+			type: 'text',
+			placeholder: 'email@email.com',
+		},
+		password: { label: 'Password', type: 'password' },
 	},
-	credentials: credentialsParams,
+	async authorize(credentials, req) {
+		console.log('authorize');
+		const user = await authenticateLogin(credentials);
+		return Promise.resolve(user);
+	},
 });

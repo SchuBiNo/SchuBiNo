@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import SignInForm from '@/components/signinForm';
 
-export default function SignIn({ csrfToken, test }) {
+export default function SignIn({ csrfToken }) {
 	const { data: session, status } = useSession();
 	const router = useRouter();
 
@@ -13,10 +13,6 @@ export default function SignIn({ csrfToken, test }) {
 	function autoRedirect() {
 		setTimeout(() => router.push('/dashboard'), 5000);
 	}
-
-	useEffect(() => {
-		console.log(test);
-	}, []);
 
 	if (status === 'loading') {
 		return <div className='loader container'></div>;
@@ -39,7 +35,7 @@ export default function SignIn({ csrfToken, test }) {
 				</div>
 			) : (
 				<div className='container'>
-					{console.log('CsrfToken:' + test)}
+					{console.log(csrfToken)}
 					<SignInForm
 						callback={signinFormCallback}
 						csrfToken={csrfToken}
@@ -52,14 +48,10 @@ export default function SignIn({ csrfToken, test }) {
 }
 
 export async function getServerSideProps(context) {
-	const csfrToken = await fetch('http://localhost:3000/api/auth/csrf').then(
-		(res) => res.json()
-	);
-	console.log('CsrfToken:' + csfrToken.csrfToken);
+	const csrfToken = await getCsrfToken();
 	return {
 		props: {
-			csrfToken: csfrToken.csrfToken,
-			test: 'test',
+			csrfToken
 		},
 	};
 }
