@@ -9,11 +9,8 @@ const TodoSchema = new mongoose.Schema(
 			required: true,
 			index: true,
 		},
-		date: {
-			type: Date,
-		},
-		title: {
-			type: String,
+		todos: {
+			type: Array,
 			required: true,
 		},
 	},

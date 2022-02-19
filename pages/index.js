@@ -6,7 +6,7 @@ export default function Page() {
 	const { data: session, status } = useSession();
 
 	if (status === 'loading') {
-		return <div className='loader container'></div>;
+		return <loader />;
 	}
 	return (
 		<div className='container mt-4'>
@@ -78,7 +78,11 @@ export default function Page() {
 				) : (
 					<>
 						Not signed in <br />
-						<button className='btn btn-primary mt-2' onClick={() => signIn()}>
+						<button
+							className='btn btn-primary mt-2'
+							onClick={() => {
+								signIn();
+							}}>
 							Sign in
 						</button>
 						<br />

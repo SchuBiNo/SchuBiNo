@@ -6,7 +6,6 @@ class TodoForm extends React.Component {
 		this.state = {
 			title: '',
 			date: '',
-			completed: false,
 		};
 	}
 
@@ -16,11 +15,9 @@ class TodoForm extends React.Component {
 
 	handleSubmit = (event) => {
 		event.preventDefault();
-		const { title, date, completed } = this.state;
+		const { title, date } = this.state;
 		this.props.callback({
-			id: 1,
 			title: title,
-			completed: false,
 			date: date,
 		});
 	};

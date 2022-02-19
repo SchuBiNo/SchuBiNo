@@ -23,7 +23,7 @@ export default function SignUp() {
 	}
 
 	if (status === 'loading') {
-		return <div className='loader container'></div>;
+		return <loader />;
 	}
 	return (
 		<>

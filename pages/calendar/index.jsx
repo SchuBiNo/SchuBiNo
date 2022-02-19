@@ -102,7 +102,7 @@ export default function Calender() {
 	};
 
 	if (status === 'loading') {
-		return <div className='loader container'></div>;
+		return <loader />;
 	}
 	return (
 		<>
@@ -156,15 +156,9 @@ export default function Calender() {
 
 					<div className='container mt-4'>
 						<div className='list-group'>
-							{(
-								<>
-									{events?.includes('loading') ? (
-										<div className='loader container'></div>
-									) : (
-										events
-									)}
-								</>
-							) ?? <a>Nothing to do</a>}
+							{<>{events?.includes('loading') ? <loader /> : events}</> ?? (
+								<a>Nothing to do</a>
+							)}
 							{showEventForm()}
 						</div>
 						<div className='d-grid gap-2 d-md-flex justify-content-md-end mt-3'>

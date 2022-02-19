@@ -5,10 +5,18 @@ class EventForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			title: '',
-			description: '',
-			startTime: '',
-			flare: '',
+			title: null,
+			description: null,
+			startTime: null,
+			endTime: null,
+			location: null,
+			geo: null,
+			categories: null,
+			color: null,
+			isPublic: false,
+			organizer: null,
+			attendees: null,
+			url: null,
 		};
 	}
 
@@ -18,16 +26,24 @@ class EventForm extends React.Component {
 
 	handleSubmit = (event) => {
 		event.preventDefault();
-		const { title, description, startTime, flare } = this.state;
-		if (title != '')
-			events.addEvent(
-				this.props.date,
-				title,
-				description,
-				startTime,
-				flare,
-				this.props.username
-			);
+
+		let newEvent = {
+			title: this.state.title,
+			description: this.state.description,
+			startTime: this.state.startTime,
+			endTime: this.state.endTime,
+			location: this.state.location,
+			geo: this.state.geo,
+			categories: this.state.categories,
+			color: this.state.color,
+			isPublic: this.state.isPublic,
+			organizer: this.state.organizer,
+			attendees: this.state.attendees,
+			url: this.state.url,
+		};
+
+		if (this.state.title != '')
+			events.addEvent(newEvent, this.props.username, this.props.date);
 		this.props.callback();
 	};
 
@@ -72,17 +88,36 @@ class EventForm extends React.Component {
 							onChange={this.handleChange}
 						/>
 					</div>
+					<div className='mt-4'>
+						<span className='form-text'>Set location and geo</span>
+						<input
+							className='form-control form-control-sm'
+							type='text'
+							name='location'
+							placeholder='location'
+							onChange={this.handleChange}
+						/>
+						<input
+							className='form-control form-control-sm  mt-2'
+							type='text'
+							name='geo'
+							placeholder='geo'
+							onChange={this.handleChange}
+						/>
+					</div>
 					<div className=' mt-4'>
-						<span className='form-text'>Set flare and color.</span>
+						<span className='form-text'>Set catergories</span>
 						<input
 							className='form-control'
 							type='text'
 							name='flare'
-							placeholder='Set flare (optional)'
+							placeholder='work, school, family'
 							onChange={this.handleChange}
 						/>
+						<span className='form-text'>Set color.</span>
 						<input
 							className='form-control mt-2'
+							type='color'
 							list='datalistOptions'
 							id='exampleDataList'
 							placeholder='Type to search...'
@@ -95,6 +130,33 @@ class EventForm extends React.Component {
 							<option value='Yellow' />
 							<option value='Cyan' />
 						</datalist>
+					</div>
+					<div className='mt-4'>
+						<span className='form-text'>Set organizer and attendees</span>
+						<input
+							className='form-control form-control-sm'
+							type='text'
+							name='organizer'
+							placeholder='organizer'
+							onChange={this.handleChange}
+						/>
+						<input
+							className='form-control form-control-sm  mt-2'
+							type='text'
+							name='attendees'
+							placeholder='attendees'
+							onChange={this.handleChange}
+						/>
+					</div>
+					<div className='mt-4'>
+						<span className='form-text'>Set URL</span>
+						<input
+							className='form-control form-control-sm'
+							type='url'
+							name='url'
+							placeholder='url'
+							onChange={this.handleChange}
+						/>
 					</div>
 					<button className='btn btn-primary mt-3' type='submit'>
 						Save

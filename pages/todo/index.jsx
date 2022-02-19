@@ -1,6 +1,7 @@
 import { useSession } from 'next-auth/react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TodoForm from '@/components/todoForm';
+import todoManager from '@/helper/todo/todoManager';
 
 import AccessDenied from '@/components/accessDenied';
 
@@ -8,36 +9,35 @@ var runningTimeouts = [];
 
 export default function Todo() {
 	const { data: session, status } = useSession();
-	const [todos, setTodos] = useState([
-		{
-			id: 1,
-			title: 'Learn Next.js',
-			completed: false,
-			date: '2020-01-01',
-		},
-	]);
+	const [todos, setTodos] = useState([]);
 	const [hasTodoForm, setTodoForm] = useState(false);
 
-	function completeTodo(value) {
-		todos[value].completed = !todos[value].completed;
-		if (todos[value].completed) {
-			let timeout = setTimeout(() => removeTodo(value), 2500);
+	useEffect(() => {
+		todoManager.getTodos(session?.user.name).then((todos) => {
+			setTodos(todos);
+		});
+	}, [session]);
+
+	function completeTodo(todo, index) {
+		todos[index].completed = !todos[index].completed;
+		if (todos[index].completed) {
+			let timeout = setTimeout(() => removeTodo(todo), 2500);
 			runningTimeouts.push({
-				id: value,
+				id: index,
 				timeout: timeout,
 			});
 		} else {
-			let item = runningTimeouts.find((item) => item.id === value);
+			let item = runningTimeouts.find((item) => item.id === index);
 			clearTimeout(item.timeout);
 			runningTimeouts.pop(item);
-			console.log('cleared timeout');
 		}
 		setTodos([...todos]);
 	}
 
-	function removeTodo(value) {
-		todos.splice(value, 1);
-		setTodos([...todos]);
+	function removeTodo(todo) {
+		todoManager.deleteTodo(session.user.name, todo.todoId).then((todos) => {
+			setTodos([...todos]);
+		});
 	}
 
 	function showTodoForm() {
@@ -48,11 +48,17 @@ export default function Todo() {
 
 	function eventTodoCallback(value) {
 		setTodoForm(false);
-		if (value) setTodos([...todos, value]);
+		if (value) {
+			todoManager
+				.addTodo(value.date, value.title, session?.user.name)
+				.then((todos) => {
+					setTodos([...todos]);
+				});
+		}
 	}
 
 	if (status === 'loading') {
-		return <div className='loader container'></div>;
+		return <loader />;
 	}
 	return (
 		<>
@@ -66,7 +72,7 @@ export default function Todo() {
 								}`}
 								key={todo.id}
 								onClick={() => {
-									completeTodo(index);
+									completeTodo(todo, index);
 								}}>
 								{todo.completed ? <strike>{todo.title}</strike> : todo.title}
 								<a className='mx-5 text text-right'>{todo.date}</a>

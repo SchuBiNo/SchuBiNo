@@ -4,7 +4,8 @@ import { dbConnect } from '../database/dbConnect';
 
 export async function authenticateLogin(credentials) {
 	await dbConnect();
-	console.log('here');
+	console.log('authenticating login');
+	console.log(credentials);
 	const { email, password } = credentials;
 	const userData = await UserModel.findOne({ email: email });
 	if (!userData) {
@@ -12,7 +13,12 @@ export async function authenticateLogin(credentials) {
 	}
 	try {
 		if (await bcrypt.compare(password, userData.password)) {
-			return { name: userData.name, email: userData.email, id: userData._id };
+			console.log('UserData:', userData);
+			return {
+				name: userData.name,
+				email: userData.email,
+				id: userData._id.toString(),
+			};
 		} else {
 			console.log('invalid password');
 			return null;

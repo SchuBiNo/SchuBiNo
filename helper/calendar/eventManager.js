@@ -9,21 +9,31 @@ import {
 	parseISO,
 	startOfMonth,
 } from 'date-fns';
+import ics from 'ics';
 
 class EventManager {
 	#events = {};
 	#syncedMonths = [];
-	#vEvent = {
-		UID: null,
-		DTSTAMP: null,
-		DTSTART: null,
-		DTEND: null,
-		SUMMARY: null,
-		DESCRIPTION: null,
-		LOCATION: null,
-		CLASS: null,
-
-	}
+	#event = {
+		uid: null,
+		start: null,
+		end: null,
+		title: null,
+		description: null,
+		location: null,
+		geo: null,
+		url: null,
+		organizer: null,
+		attendees: null,
+		categories: null,
+		alarms: null,
+		recurrenceRule: null,
+		created: null,
+		lastModified: null,
+		sequence: null,
+		status: null,
+		classification: null,
+	};
 
 	constructor() {}
 
@@ -137,18 +147,47 @@ class EventManager {
 		}
 	}
 
-	async addEvent(date, title, desc, startTime, flare, username) {
+	async addEvent(data, username, date) {
+		console.log('AddDate:', date);
 		let hash = this.#getDateHash(date);
 		let id = this.#getID(hash);
-		let event = {
-			id: id,
-			title: title,
-			description: desc,
-			flare: flare,
-			date: this.#addTimeToDate(date, startTime),
-		};
+		const {
+			title,
+			description,
+			startTime,
+			endTime,
+			location,
+			geo,
+			categories,
+			color,
+			isPublic,
+			organizer,
+			attendees,
+			url,
+		} = data;
+		let event = Object.create(this.#event);
+		event.uid = id;
+		event.start = this.#addTimeToDate(date, startTime);
+		event.end = this.#addTimeToDate(date, endTime);
+		event.title = title;
+		event.description = description;
+		event.location = location;
+		event.geo = geo;
+		event.url = url;
+		event.organizer = organizer;
+		event.attendees = attendees;
+		event.categories = categories;
+		event.color = color;
+		event.isPublic = isPublic;
+		event.status = 'confirmed';
+		event.classification = 'public';
+		event.created = new Date();
+		event.lastModified = new Date();
+		event.sequence = 0;
+
 		if (this.#events[hash] == undefined) this.#events[hash] = [];
 		this.#events[hash]?.push(event);
+		console.log('username:', username);
 		let userId = await this.#getUserId(username);
 		await fetch('/api/calendar/add', {
 			method: 'POST',

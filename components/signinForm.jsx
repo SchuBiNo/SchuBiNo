@@ -10,9 +10,26 @@ class SignInForm extends React.Component {
 			providers: [],
 			message: '',
 		};
-		console.log(this.props.csrfToken);
+	}
+
+	componentDidMount() {
 		getProviders().then((value) => this.setState({ providers: value }));
 	}
+
+	handleSubmit = async (event) => {
+		//event.preventDefault();
+		const { error, ok, url } = await signIn('credentials', {
+			email: this.state.email,
+			password: this.state.password,
+		});
+
+		console.log(error, ok, url);
+		if (ok) {
+			router.push(url);
+		} else {
+			console.log(error);
+		}
+	};
 
 	handleChange = (event) => {
 		this.setState({ [event.target.name]: event.target.value });
@@ -51,13 +68,12 @@ class SignInForm extends React.Component {
 					</div>
 					<button
 						className='btn btn-primary mt-3 form-control'
-						type='submit'
-						onClick={() =>
+						onClick={() => {
 							signIn('credentials', {
 								email: this.state.email,
 								password: this.state.password,
-							})
-						}>
+							});
+						}}>
 						Signin
 					</button>
 				</form>

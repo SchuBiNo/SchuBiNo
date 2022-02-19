@@ -5,15 +5,14 @@ export default async function handler(req, res) {
 	if (req.method === 'POST') {
 		await dbConnect();
 
-		const { userId, date, title } = req.body;
+		const { userId, todos } = req.body;
 		console.log('Req.body:', req.body);
 
-		const newTodo = new Todo({
-			userId: userId,
-			date: date,
-			title: title,
-		});
-		await newTodo.save().catch((err) => {
+		await Todo.findOneAndUpdate(
+			{ userId: userId },
+			{ todos: todos },
+			{ new: true, upsert: true }
+		).catch((err) => {
 			console.log(err);
 			res.status(500).json({ message: 'Internal server error' });
 		});

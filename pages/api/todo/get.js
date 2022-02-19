@@ -6,7 +6,7 @@ export default async function handler(req, res) {
 		await dbConnect();
 
 		const { userId } = req.body;
-		let results = await Todo.find({
+		let results = await Todo.findOne({
 			userId: userId,
 		}).catch((err) => {
 			console.log('Unexpected Database error!', err);
