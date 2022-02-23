@@ -21,6 +21,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 							Planner: '/calendar',
 							Todo: '/todo',
 							Notes: '/notes',
+							Grades: '/grades',
 						}}
 						path={path}
 					/>

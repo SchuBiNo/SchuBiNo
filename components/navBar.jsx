@@ -12,7 +12,7 @@ class Navbar extends React.Component {
 				<nav className='navbar navbar-expand-lg navbar-light bg-light'>
 					<div className='container-fluid'>
 						<Link href='/'>
-							<a className='navbar-brand'>NextPlanner</a>
+							<a className='navbar-brand'>SchuBiNo</a>
 						</Link>
 						<button
 							className='navbar-toggler'
