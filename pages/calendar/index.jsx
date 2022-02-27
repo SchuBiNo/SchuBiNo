@@ -16,6 +16,7 @@ import eventManager from '@/helper/calendar/eventManager';
 
 import EventForm from '@/components/eventForm';
 import AccessDenied from '@/components/accessDenied';
+import Loader from '@/components/loader';
 
 export default function Calender() {
 	const router = useRouter();
@@ -51,6 +52,10 @@ export default function Calender() {
 
 	function eventFormCallback() {
 		setEventForm(false);
+	}
+
+	if (status === 'loading') {
+		return <Loader />;
 	}
 
 	function getEventsForDay() {

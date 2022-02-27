@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import TodoForm from '@/components/todoForm';
 import todoManager from '@/helper/todo/todoManager';
 
+import Loader from '@/components/loader';
 import AccessDenied from '@/components/accessDenied';
 
 var runningTimeouts = [];
@@ -58,7 +59,7 @@ export default function Todo() {
 	}
 
 	if (status === 'loading') {
-		return <loader />;
+		return <Loader />;
 	}
 	return (
 		<>
@@ -75,7 +76,12 @@ export default function Todo() {
 									completeTodo(todo, index);
 								}}>
 								{todo.completed ? <strike>{todo.title}</strike> : todo.title}
-								<a className='mx-5 text text-right'>{todo.date}</a>
+								<a
+									className={`mx-5 text text-right  ${
+										Date.parse(todo.date) < Date.now() ? 'text-danger' : ''
+									}`}>
+									{todo.date}
+								</a>
 							</li>
 						))}
 					</ul>

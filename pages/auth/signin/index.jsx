@@ -6,7 +6,7 @@ import {
 } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import loader from '@/components/loader.jsx';
+import Loader from '@/components/loader.jsx';
 
 export default function SignIn({ csrfToken }) {
 	const { data: session, status } = useSession();
@@ -25,10 +25,10 @@ export default function SignIn({ csrfToken }) {
 		setCredentials({ [event.target.name]: event.target.value });
 	};
 	if (status === 'loading') {
-		return <loader />;
+		return <Loader />;
 	}
 	return (
-		<div>
+		<div className='container'>
 			{console.log(providers)}
 			<a className='text-danger'>
 				{router.query.error && <SignInError error={router.query.error} />}

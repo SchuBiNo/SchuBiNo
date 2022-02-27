@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import AddSubjectForm from '@/components/addSubjectForm';
 import AddSubjectTypeForm from '@/components/addSubjectTypeForm';
 import { nanoid } from 'nanoid';
+import Loader from '@/components/loader';
 
 export default function Dashboard() {
 	const { data: session, status } = useSession();
@@ -130,7 +131,7 @@ export default function Dashboard() {
 	}
 
 	if (status === 'loading') {
-		return <loader />;
+		return <Loader />;
 	}
 	return (
 		<>

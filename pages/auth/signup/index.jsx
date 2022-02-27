@@ -2,6 +2,7 @@ import SignUpForm from '@/components/signupForm';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import Loader from '@/components/loader';
 
 export default function SignUp() {
 	const { data: session, status } = useSession();
@@ -23,7 +24,7 @@ export default function SignUp() {
 	}
 
 	if (status === 'loading') {
-		return <loader />;
+		return <Loader />;
 	}
 	return (
 		<>

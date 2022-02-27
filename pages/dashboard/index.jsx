@@ -1,5 +1,6 @@
 import EventList from '@/components/eventList';
 import AccessDenied from '@/components/accessDenied';
+import Loader from '@/components/loader';
 
 import { useSession } from 'next-auth/react';
 
@@ -7,7 +8,7 @@ export default function Dashboard() {
 	const { data: session, status } = useSession();
 
 	if (status === 'loading') {
-		return <loader />;
+		return <Loader />;
 	}
 	return (
 		<>

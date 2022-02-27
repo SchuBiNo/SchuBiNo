@@ -2,11 +2,12 @@ import AccessDenied from '@/components/accessDenied';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import NoteArea from '@/components/noteArea';
+import Loader from '@/components/loader';
 
 export default function Dashboard() {
 	const { data: session, status } = useSession();
 	if (status === 'loading') {
-		return <loader />;
+		return <Loader />;
 	}
 	return (
 		<>
