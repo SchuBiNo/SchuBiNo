@@ -9,6 +9,7 @@ class EventList extends React.Component {
 			overflow: 'hidden',
 		};
 		this.maxHeight = window.innerHeight - 100;
+		this.checkTimeout = null;
 	}
 
 	handleChange = (event) => {
@@ -24,6 +25,32 @@ class EventList extends React.Component {
 			['overflow']: overflow,
 		});
 		console.log(this.state.height);
+		if (this.checkTimeout) clearTimeout(this.checkTimeout);
+		this.checkTimeout = setTimeout(() => this.check(), 1500);
+		event.target.value = '<strike>' + event.target.value + '</strike>';
+	};
+
+	check = () => {
+		console.log('check');
+		fetch('/api/language/check', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				language: 'en',
+				text: this.state.text,
+			}),
+		})
+			.then((response) => {
+				return response.json();
+			})
+			.then((data) => {
+				console.log(data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	};
 
 	componentDidMount() {}
