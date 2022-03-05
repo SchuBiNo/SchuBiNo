@@ -28,7 +28,7 @@ class TodoForm extends React.Component {
 
 	render() {
 		return (
-			<a className='list-group-item list-group-item-action'>
+			<a className='list-group-item list-group-item-action redLine'>
 				<form onSubmit={this.handleSubmit}>
 					<div>
 						<input
@@ -48,7 +48,7 @@ class TodoForm extends React.Component {
 							onChange={this.handleChange}
 						/>
 					</div>
-					<button className='btn btn-primary mt-3' type='submit'>
+					<button className='btn bgdarkred mt-3' type='submit'>
 						Save
 					</button>
 					<button

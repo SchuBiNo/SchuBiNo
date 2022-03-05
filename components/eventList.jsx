@@ -30,8 +30,8 @@ class EventList extends React.Component {
 		return (
 			<div>
 				<div className='container mt-4'>
-					<div className='card border-secondary mb-3'>
-						<div className='card-header'>Your Tasks</div>
+					<div className='card border mb-3 redLine'>
+						<div className='card-header bborder'>Your Tasks</div>
 						<div className='card-body text-dark'>
 							<div className='list-group'>
 								{this.state.loading ? (
