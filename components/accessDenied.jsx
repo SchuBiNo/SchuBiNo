@@ -9,8 +9,11 @@ class AccessDenied extends React.Component {
 					You need to be signed in to access this page!🔒
 					<br />
 					<div className='d-grid gap-2 col-4 mx-auto'>
-						<button className='btn btn-primary mt-3' onClick={() => signIn()}>
+						<button className='btn btn-secondary mt-3' onClick={() => signIn()}>
 							Sign in
+						</button>
+						<button className='btn btn-secondary mt-3 disabled' >
+							Sign up
 						</button>
 					</div>
 				</>
