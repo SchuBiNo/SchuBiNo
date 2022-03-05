@@ -69,7 +69,7 @@ export default function Calender() {
 					<a
 						key={cEvent.id}
 						href='#'
-						className='list-group-item list-group-item-action'>
+						className='list-group-item list-group-item-action  redLine'>
 						<div className='d-flex w-100 justify-content-between'>
 							<h5 className='mb-1'>{cEvent.title}</h5>
 							<small>
@@ -79,7 +79,7 @@ export default function Calender() {
 						</div>
 						<p className='mb-1'>{cEvent.description}</p>
 						<p>
-							<span className='badge bg-primary rounded-pill'>
+							<span className='badge bg-primary rounded-pill '>
 								{cEvent.flare}
 							</span>
 						</p>
@@ -116,8 +116,8 @@ export default function Calender() {
 			{session ? (
 				<div>
 					<div className='container mt-4'>
-						<div className='card'>
-							<div className='card-header text-center'>
+						<div className='card redLine'>
+							<div className='card-header text-center bborder'>
 								<button
 									className='btn'
 									onClick={() => {
@@ -146,7 +146,7 @@ export default function Calender() {
 													{format(day, 'dd-MM')}
 													<span> </span>
 													{eventManager.dateHasEvents(day) ? (
-														<span className='badge rounded-pill bg-primary'>
+														<span className='badge rounded-pill bgdarkred'>
 															📑
 														</span>
 													) : (
@@ -170,7 +170,7 @@ export default function Calender() {
 						</div>
 						<div className='d-grid gap-2 d-md-flex justify-content-md-end mt-3'>
 							<button
-								className='btn btn-primary me-md-2'
+								className='btn btn me-md-2 bgr widerButton'
 								type='button'
 								onClick={() => setEventForm(true)}>
 								+

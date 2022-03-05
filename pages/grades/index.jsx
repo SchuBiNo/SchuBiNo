@@ -138,9 +138,9 @@ export default function Dashboard() {
 			{session ? (
 				<div>
 					<div className='fs-1 text text-center mt-4'>{showError}</div>
-					<div className='fs-1 mt-4 container'>
+					<div className='fs-1 mt-4 container mb'>
 						<div className='row'>
-							<div className='col-md-6 text text-center'>
+							<div className='col-md-5 text text-center redLine dist'>
 								<table className='table table-hover'>
 									<thead>
 										<tr>
@@ -158,7 +158,7 @@ export default function Dashboard() {
 									</tbody>
 								</table>
 								<button
-									className='btn btn-primary form-control'
+									className='btn bgr form-control'
 									onClick={() => {
 										setSubjectForm(true);
 									}}>
@@ -166,46 +166,48 @@ export default function Dashboard() {
 								</button>
 								{showSubjectForm()}
 							</div>
-							<div className='col-md-6 table-responsive'>
-								<table className='table'>
-									<thead className='text text-center'>
-										<tr>
-											<th scope='col'>{curSubject?.title}</th>
-										</tr>
-									</thead>
-									<tbody className='align-top'>
-										{curSubject?.types.map((type, index) => (
-											<tr key={index} className='row'>
-												{console.log(type)}
-												<div>
-													{type.name}: {type?.percentage}%
-												</div>
-												<div className='col'>
-													{type.grades.join(', ')}{' '}
-													<button className='col btn btn-primary btn-sm'>
-														+
-													</button>
-												</div>
+							{curSubject ? (
+								<div className='col-md-5 table-responsive redLine dist'>
+									<table className='table'>
+										<thead className='text text-center'>
+											<tr>
+												<th scope='col'>{curSubject?.title}</th>
 											</tr>
-										))}
-									</tbody>
-								</table>
-								{curSubject ? (
-									<>
-										<div>Total: {getSubjectAverage()}</div>
-										<button
-											className='btn btn-primary form-control'
-											onClick={() => {
-												setSubjectTypeForm(true);
-											}}>
-											+
-										</button>
-										{showSubjectTypeForm()}
-									</>
-								) : (
-									<></>
-								)}
-							</div>
+										</thead>
+										<tbody className='align-top'>
+											{curSubject?.types.map((type, index) => (
+												<tr key={index} className='row'>
+													{console.log(type)}
+													<div>
+														{type.name}: {type?.percentage}%
+													</div>
+													<div className='col'>
+														{type.grades.join(', ')}{' '}
+														<button className='col btn bgr btn-sm'>+</button>
+													</div>
+												</tr>
+											))}
+										</tbody>
+									</table>
+									{curSubject ? (
+										<>
+											<div>Total: {getSubjectAverage()}</div>
+											<button
+												className='btn bgr form-control'
+												onClick={() => {
+													setSubjectTypeForm(true);
+												}}>
+												+
+											</button>
+											{showSubjectTypeForm()}
+										</>
+									) : (
+										<></>
+									)}
+								</div>
+							) : (
+								<div />
+							)}
 						</div>
 					</div>
 				</div>

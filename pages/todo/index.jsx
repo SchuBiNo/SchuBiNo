@@ -69,7 +69,7 @@ export default function Todo() {
 					<ul className='list-group'>
 						{todos.map((todo, index) => (
 							<li
-								className={`list-group-item list-group-item-action flex-column align-items-start ${
+								className={`list-group-item list-group-item-action redLine flex-column align-items-start ${
 									todo.completed ? 'list-group-item-success' : ''
 								}`}
 								key={todo.id}
@@ -89,7 +89,7 @@ export default function Todo() {
 						))}
 					</ul>
 					<button
-						className='btn btn-primary mt-4'
+						className='btn bgr mt-4'
 						onClick={() => setTodoForm(true)}>
 						Add
 					</button>

@@ -22,8 +22,8 @@ function afterCurrentMonth(day, value) {
 	return isAfter(day, endOfMonth(value));
 }
 export default function dayStyles(day, value) {
-	if (isSelected(day, value)) return 'bg-warning';
-	if (isToday(day)) return 'bg-dark text-light';
+	if (isSelected(day, value)) return 'bggrey';
+	if (isToday(day)) return 'bgdarkgrey text-light';
 	if (beforeCurrentMonth(day, value) || afterCurrentMonth(day, value))
 		return 'text-muted';
 	return '';
