@@ -1,8 +1,9 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
 import AccessDenied from '@/components/accessDenied';
-import Link from 'next/link';
+import Loader from '@/components/loader';
 import Image from 'next/image';
 import logo from '../public/SchuBiNoNavBar.png';
+
 const MyLogo = (props) => {
 	return <Image src={logo} layout='responsive' />;
 };
