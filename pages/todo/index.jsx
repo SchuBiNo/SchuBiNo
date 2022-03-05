@@ -49,6 +49,7 @@ export default function Todo() {
 
 	function eventTodoCallback(value) {
 		setTodoForm(false);
+		console.log(value);
 		if (value) {
 			todoManager
 				.addTodo(value.date, value.title, session?.user.name)
@@ -78,7 +79,9 @@ export default function Todo() {
 								{todo.completed ? <strike>{todo.title}</strike> : todo.title}
 								<a
 									className={`mx-5 text text-right  ${
-										Date.parse(todo.date) < Date.now() ? 'text-danger' : ''
+										Date.parse(todo.date) < new Date().setHours(0, 0, 0, 0)
+											? 'text-danger'
+											: ''
 									}`}>
 									{todo.date}
 								</a>

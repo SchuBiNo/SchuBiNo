@@ -48,7 +48,7 @@ class TodoManager {
 	};
 
 	async addTodo(date, title, username) {
-		if (!date || !title || !username) return this.#todos;
+		if (!title || !username) return this.#todos;
 		let userId = await this.#getUserId(username);
 		let todo = {
 			todoId: nanoid(8),

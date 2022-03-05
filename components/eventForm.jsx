@@ -17,6 +17,7 @@ class EventForm extends React.Component {
 			organizer: null,
 			attendees: null,
 			url: null,
+			error: null,
 		};
 	}
 
@@ -26,6 +27,12 @@ class EventForm extends React.Component {
 
 	handleSubmit = (event) => {
 		event.preventDefault();
+		console.log(this.props.username);
+
+		if (!this.state.title) {
+			this.setState({ error: 'Title is required' });
+			return;
+		}
 
 		let newEvent = {
 			title: this.state.title,
@@ -43,7 +50,12 @@ class EventForm extends React.Component {
 		};
 
 		if (this.state.title != '')
-			events.addEvent(newEvent, this.props.username, this.props.date);
+			events.addEvent(
+				newEvent,
+				this.props.username,
+				this.props.date,
+				this.props.provider
+			);
 		this.props.callback();
 	};
 
@@ -54,6 +66,7 @@ class EventForm extends React.Component {
 	render() {
 		return (
 			<a className='list-group-item list-group-item-action'>
+				<p style={{ color: 'red' }}>{this.state.error}</p>
 				<form onSubmit={this.handleSubmit}>
 					<div>
 						<input

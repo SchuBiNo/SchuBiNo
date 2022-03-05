@@ -206,12 +206,6 @@ export default function Dashboard() {
 									<></>
 								)}
 							</div>
-							<div className='row'>
-								Lorem ipsum dolor, sit amet consectetur adipisicing elit. Porro
-								at quam reiciendis, cumque recusandae totam unde dolore! Illum
-								omnis facere dolores assumenda unde saepe asperiores nesciunt,
-								quia, quas quos soluta.
-							</div>
 						</div>
 					</div>
 				</div>

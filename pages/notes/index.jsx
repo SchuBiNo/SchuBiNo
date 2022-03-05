@@ -18,7 +18,8 @@ export default function Dashboard() {
 					<p>
 						This notes section is experimental. It is not meant to be used for
 						anything other than testing.<br></br> There are no UI Elements yet.
-						<br></br> But you can use common keyboard to format your text.
+						<br></br> But you can use common keyboard shortcuts to format your
+						text.
 						<br></br>
 					</p>
 					<div className='fs-1 text text-center mt-4 container'>

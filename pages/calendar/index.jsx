@@ -31,6 +31,7 @@ export default function Calender() {
 
 	useEffect(() => {
 		getEventsForDay();
+		console.log(session);
 	}, [session]);
 
 	useEffect(() => {
@@ -43,7 +44,8 @@ export default function Calender() {
 			return (
 				<EventForm
 					date={value}
-					username={session.user.name}
+					username={session?.databaseId || session.user.name}
+					provider={session?.provider}
 					callback={() => eventFormCallback()}
 				/>
 			);

@@ -35,7 +35,6 @@ class MyEditor extends React.Component {
 	};
 
 	check = (text) => {
-		console.log('check');
 		this.setState({ validating: true });
 		fetch('/api/language/check', {
 			method: 'POST',
@@ -63,7 +62,6 @@ class MyEditor extends React.Component {
 
 	displaySuggestions = (data) => {
 		if (data.suggestions.length < 1) return; // no suggestions
-		console.log(data);
 		this.setState({
 			editorState: EditorState.set(this.state.editorState, {
 				decorator: new CompositeDecorator(
@@ -85,9 +83,6 @@ class MyEditor extends React.Component {
 	};
 
 	removeDecorator = (index, newEditorState) => {
-		console.log(
-			this.state.editorState.getCurrentContent().getPlainText('\u0001')
-		);
 		let decorators = this.state.editorState.getDecorator();
 		let newDecorators = decorators._decorators
 			.slice(0, index)
@@ -153,8 +148,6 @@ class MyEditor extends React.Component {
 						style={{ color: 'red' }}
 						onClick={(e) => {
 							this.isClicked = false;
-							console.log('clicked');
-							console.log(this.isClicked);
 							this.setState({
 								currSuggestionBox: suggestionBox([e.clientX, e.clientY]),
 							});
@@ -197,7 +190,6 @@ class MyEditor extends React.Component {
 	render() {
 		return (
 			<>
-				{Date.now()}
 				<form className='form-control mb-4 mt-4'>
 					<div class='input-group mb-3 mt-3'>
 						<div class='input-group-prepend'>

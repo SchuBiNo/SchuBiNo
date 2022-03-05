@@ -57,9 +57,11 @@ class EventManager {
 		}
 	};
 
-	#getUserId = async (username) => {
+	#getUserId = async (username, provider) => {
 		let userId;
-		await fetch(`/api/user/${username}/id`)
+		let userEndpoint = provider == 'credentials' ? 'user' : 'oauthuser';
+		console.log('Endpoint:', `/api/${userEndpoint}/${username}/id`);
+		await fetch(`/api/${userEndpoint}/${username}/id`)
 			.then((response) => response.json())
 			.then((data) => {
 				userId = data.id;
@@ -67,7 +69,7 @@ class EventManager {
 			.catch((error) => {
 				console.log(error);
 			});
-
+		console.log('userId:', userId);
 		return userId;
 	};
 
@@ -147,7 +149,7 @@ class EventManager {
 		}
 	}
 
-	async addEvent(data, username, date) {
+	async addEvent(data, username, date, provider) {
 		console.log('AddDate:', date);
 		let hash = this.#getDateHash(date);
 		let id = this.#getID(hash);
@@ -188,7 +190,7 @@ class EventManager {
 		if (this.#events[hash] == undefined) this.#events[hash] = [];
 		this.#events[hash]?.push(event);
 		console.log('username:', username);
-		let userId = await this.#getUserId(username);
+		let userId = await this.#getUserId(username, provider);
 		await fetch('/api/calendar/add', {
 			method: 'POST',
 			headers: {

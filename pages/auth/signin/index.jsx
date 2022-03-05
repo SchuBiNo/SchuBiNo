@@ -7,6 +7,7 @@ import {
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Loader from '@/components/loader.jsx';
+import Link from 'next/link';
 
 export default function SignIn({ csrfToken }) {
 	const { data: session, status } = useSession();
@@ -22,69 +23,84 @@ export default function SignIn({ csrfToken }) {
 	}, []);
 
 	const handleChange = (event) => {
+		console.log(event.target.name, event.target.value);
 		setCredentials({ [event.target.name]: event.target.value });
 	};
 	if (status === 'loading') {
 		return <Loader />;
 	}
 	return (
-		<div className='container'>
-			{console.log(providers)}
-			<a className='text-danger'>
-				{router.query.error && <SignInError error={router.query.error} />}
-			</a>
-			<form
-				className='mb-4 mt-4'
-				method='post'
-				action='/api/auth/callback/credentials'>
-				<div className='form-group'>
-					<input name='csrfToken' type='hidden' defaultValue={csrfToken} />
-					<label htmlFor='Email'>Email</label>
-					<input
-						type='email'
-						id='email'
-						name='email'
-						required
-						className='form-control'
-						onChange={handleChange}></input>
+		<>
+			{session ? (
+				<div className='text text-center mt-4 container'>
+					<h1>You are already logged in!</h1>
+					<p>
+						<Link href='/dashboard' passHref>
+							Click here
+						</Link>
+						!
+					</p>
 				</div>
-				<div className='form-group'>
-					<label htmlFor='Password'>Password</label>
-					<input
-						type='password'
-						id='password'
-						name='password'
-						required
-						className='form-control'
-						onChange={handleChange}></input>
-				</div>
-				<button className='btn btn-primary mt-3 form-control' type='submit'>
-					Signin
-				</button>
-			</form>
-			{providers?.github && (
-				<div>
-					<hr></hr>
-					<button
-						type='button'
-						className='btn btn-primary form-control mt-2 mb-2'
-						onClick={() => signIn(providers?.github.id)}>
-						GitHub Login
-					</button>
+			) : (
+				<div className='container'>
+					{console.log(providers)}
+					<a className='text-danger'>
+						{router.query.error && <SignInError error={router.query.error} />}
+					</a>
+					<form
+						className='mb-4 mt-4'
+						method='post'
+						action='/api/auth/callback/credentials'>
+						<div className='form-group'>
+							<input name='csrfToken' type='hidden' defaultValue={csrfToken} />
+							<label htmlFor='Email'>Email</label>
+							<input
+								type='email'
+								id='email'
+								name='email'
+								required
+								className='form-control'
+								onChange={handleChange}></input>
+						</div>
+						<div className='form-group'>
+							<label htmlFor='Password'>Password</label>
+							<input
+								type='password'
+								id='password'
+								name='password'
+								required
+								className='form-control'
+								onChange={handleChange}></input>
+						</div>
+						<button className='btn btn-primary mt-3 form-control' type='submit'>
+							Signin
+						</button>
+					</form>
+					{providers?.github && (
+						<div>
+							<hr></hr>
+							<button
+								type='button'
+								className='btn btn-primary form-control mt-2 mb-2'
+								onClick={() => signIn(providers?.github.id)}>
+								GitHub Login
+							</button>
+						</div>
+					)}
+					{providers?.google && (
+						<div>
+							<hr></hr>
+							<button
+								type='button'
+								className='btn btn-primary form-control mt-2'
+								onClick={() => signIn(providers?.google.id)}>
+								Google Login
+							</button>
+						</div>
+					)}
 				</div>
 			)}
-			{providers?.google && (
-				<div>
-					<hr></hr>
-					<button
-						type='button'
-						className='btn btn-primary form-control mt-2'
-						onClick={() => signIn(providers?.google.id)}>
-						Google Login
-					</button>
-				</div>
-			)}
-		</div>
+		</>
 	);
 }
 

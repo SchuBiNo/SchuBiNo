@@ -1,27 +1,28 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
-
+import Loader from '@/components/loader';
 import Link from 'next/link';
 
 export default function Page() {
 	const { data: session, status } = useSession();
 
 	if (status === 'loading') {
-		return <loader />;
+		return <Loader />;
 	}
 	return (
 		<div className='container mt-4'>
 			<h1>Getting Started</h1>
 			<br />
 			<p>
-				Welcome to the Next.js test page!
 				<br />
 				<br />
-				Next. js is a React framework that enables several extra features,
+				Next.js is a React framework that enables several extra features,
 				including server-side rendering and generating static websites. React is
 				a JavaScript library that is traditionally used to build web
 				applications rendered in the client&apos;s browser with JavaScript.{' '}
 				<br />
-				The code is available on <a href='#'>GitHub</a>.
+				The code is available on{' '}
+				<a href='https://github.com/SchuBiNo'>GitHub</a>
+				.
 				<br />
 				<br />
 			</p>
@@ -43,11 +44,11 @@ export default function Page() {
 				<br />
 				<br />
 				<code>
-					Username:&nbsp;Guest
+					Username:&nbsp;User
 					<br />
-					Email: guest@email.de
+					Email: User@email.de
 					<br />
-					Password: 76UHPnVX
+					Password: UserPassword
 				</code>
 				<br />
 				<br />
@@ -56,13 +57,13 @@ export default function Page() {
 				To log in with GitHub, you only need to grant the app access to the
 				necessary information of your GitHub account.
 				<br />
-				GitHub accounts might not support persistent data storage at the moment,
-				due to a bug with mongoose.
 				<br />
 				<br />
 				<br />
 				<p className='fs-4'>Google Credential Provider:</p>
-				This provider is currently disabled due to missing API keys.
+				To log in with Google, you only need to grant the app access to the
+				necessary information of your Google account. Google Credential Provider
+				might not work because of missing redirects.
 			</p>
 			<br />
 			<div className='text-center mt-4'>

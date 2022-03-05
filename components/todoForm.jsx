@@ -6,6 +6,7 @@ class TodoForm extends React.Component {
 		this.state = {
 			title: '',
 			date: '',
+			error: '',
 		};
 	}
 
@@ -16,6 +17,12 @@ class TodoForm extends React.Component {
 	handleSubmit = (event) => {
 		event.preventDefault();
 		const { title, date } = this.state;
+		let newDate = new Date();
+		if (date && Date.parse(date) <= newDate.setHours(0, 0, 0, 0)) {
+			this.setState({ error: 'Date must be in the future' });
+			return;
+		}
+		console.log(title, date);
 		this.props.callback({
 			title: title,
 			date: date,
@@ -29,6 +36,7 @@ class TodoForm extends React.Component {
 	render() {
 		return (
 			<a className='list-group-item list-group-item-action'>
+				<p style={{ color: 'red' }}>{this.state.error}</p>
 				<form onSubmit={this.handleSubmit}>
 					<div>
 						<input
