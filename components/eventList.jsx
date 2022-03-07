@@ -21,7 +21,8 @@ class EventList extends React.Component {
 			this.props.days,
 			new Date(),
 			this.props.amount,
-			this.props.session?.user.name
+			this.props.session?.databaseId || this.props.session?.user.name,
+			this.props.session?.provider
 		);
 		console.log(events);
 		this.setState({ listEvents: events, loading: false });
@@ -48,7 +49,7 @@ class EventList extends React.Component {
 											<div className='d-flex w-100 justify-content-between'>
 												<h5 className='mb-1'>{item.title}</h5>
 												<small>
-													{getDayDeltaText(new Date(), parseISO(item.date))}
+													{getDayDeltaText(new Date(), parseISO(item.start))}
 												</small>
 											</div>
 											<p className='mb-1'>{item.description}</p>

@@ -22,6 +22,7 @@ class EventForm extends React.Component {
 	}
 
 	handleChange = (event) => {
+		console.log([event.target.name], event.target.value);
 		this.setState({ [event.target.name]: event.target.value });
 	};
 
@@ -122,7 +123,7 @@ class EventForm extends React.Component {
 						<input
 							className='form-control'
 							type='text'
-							name='flare'
+							name='categories'
 							placeholder='work, school, family'
 							onChange={this.handleChange}
 						/>

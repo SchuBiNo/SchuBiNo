@@ -1,6 +1,7 @@
 import { differenceInCalendarDays } from 'date-fns';
 
 export function getDayDeltaText(dayOne, dayTwo) {
+	console.log('dayOne:', dayOne, 'dayTwo:', dayTwo);
 	let difference = differenceInCalendarDays(dayOne, dayTwo);
 	switch (difference) {
 		case 1:

@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 
 		if (await CalEvent.exists({ userId: userId, date: date })) {
 			let event = await CalEvent.findOne({ userId: userId, date: date });
-			let eventIndex = event.events.findIndex((el) => el.id == eventId);
+			let eventIndex = event.events.findIndex((el) => el.uid == eventId);
 			event.events.splice(eventIndex, 1);
 			console.log(event.events);
 			if (event.events.length == 0) {

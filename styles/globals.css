@@ -40,30 +40,29 @@ a {
 }
 
 .index {
-  display: grid;
-  grid-template:
-    "t t l" auto;
+	display: grid;
+	grid-template: 't t l' auto;
 }
 /*
 / 1fr 1fr 1fr;*/
 
-@media screen and (max-width:680px) {
-  .index {
-    display: grid;
-    grid-template:
-      "t" auto
-      "l" auto
-      / 1fr;
-  }
+@media screen and (max-width: 680px) {
+	.index {
+		display: grid;
+		grid-template:
+			't' auto
+			'l' auto
+			/ 1fr;
+	}
 }
 
 .indexText {
-  grid-area: t;
+	grid-area: t;
 }
 
 .indexLogin {
 	margin-top: -20px;
-  grid-area: l;
+	grid-area: l;
 	height: 100px;
 }
 
@@ -81,7 +80,9 @@ a {
 	font-size: 1.25rem;
 }
 
-.butred:hover, .bgdarkred, .bgdarkred:hover {
+.butred:hover,
+.bgdarkred,
+.bgdarkred:hover {
 	background-color: #ba181b;
 	color: white;
 }
@@ -102,7 +103,7 @@ a {
 	background-color: dimgrey;
 }
 
-.widerButton{
+.widerButton {
 	width: 80px;
 	margin-bottom: 20px;
 }
@@ -114,4 +115,10 @@ a {
 
 .mb {
 	margin-bottom: 20px;
+}
+
+.todo.hidden {
+	visibility: hidden;
+	opacity: 0;
+	transition: visibility 0s 2.5s, opacity 2.5s linear;
 }

@@ -4,26 +4,25 @@ class TodoManager {
 
 	constructor() {}
 
-	#getUserId = async (username) => {
+	#getUserId = async (username, provider) => {
 		let userId;
-		await fetch(`/api/user/${username}/id`, {
-			method: 'GET',
-		})
-			.then((res) => {
-				return res.json();
-			})
+		let userEndpoint = provider == 'credentials' ? 'user' : 'oauthuser';
+		console.log('Endpoint:', `/api/${userEndpoint}/${username}/id`);
+		await fetch(`/api/${userEndpoint}/${username}/id`)
+			.then((response) => response.json())
 			.then((data) => {
 				userId = data.id;
 			})
 			.catch((error) => {
 				console.log(error);
 			});
+		console.log('userId:', userId);
 		return userId;
 	};
 
-	getTodos = async (username) => {
+	getTodos = async (username, provider) => {
 		if (!username) return this.#todos;
-		let userId = await this.#getUserId(username);
+		let userId = await this.#getUserId(username, provider);
 		let res = await fetch(`/api/todo/get`, {
 			method: 'POST',
 			headers: {
@@ -47,9 +46,9 @@ class TodoManager {
 		}
 	};
 
-	async addTodo(date, title, username) {
+	async addTodo(date, title, username, provider) {
 		if (!title || !username) return this.#todos;
-		let userId = await this.#getUserId(username);
+		let userId = await this.#getUserId(username, provider);
 		let todo = {
 			todoId: nanoid(8),
 			date: date,
@@ -77,9 +76,9 @@ class TodoManager {
 		return this.#todos;
 	}
 
-	async deleteTodo(username, todoId) {
+	async deleteTodo(username, todoId, provider) {
 		if (!username || !todoId) return this.#todos;
-		let userId = await this.#getUserId(username);
+		let userId = await this.#getUserId(username, provider);
 		this.#todos = this.#todos.filter((todo) => todo.todoId !== todoId);
 		await fetch('/api/todo/update', {
 			method: 'POST',

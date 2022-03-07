@@ -13,7 +13,7 @@ export default async function handler(req, res) {
 			res.status(500).send('Unexpected Database error!');
 		});
 
-		res.status(200).json(results);
+		res.status(200).json(results ?? []);
 	} else {
 		console.log('Invalid request type!❌');
 		res.status(400).send('Invalid request type!❌');

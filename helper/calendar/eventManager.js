@@ -12,7 +12,7 @@ import {
 import ics from 'ics';
 
 class EventManager {
-	#events = {};
+	#events = [];
 	#syncedMonths = [];
 	#event = {
 		uid: null,
@@ -37,11 +37,11 @@ class EventManager {
 
 	constructor() {}
 
-	#syncMonth = async (date, username, refreshCallback) => {
+	#syncMonth = async (date, username, provider, refreshCallback) => {
 		console.log('username:', username);
 		if (username) {
 			console.log('syncing month');
-			await this.#loadMonthFromDB(date, username).then((result) => {
+			await this.#loadMonthFromDB(date, username, provider).then((result) => {
 				if (result) {
 					console.log(startOfMonth(date));
 					this.#syncedMonths.push(startOfMonth(date));
@@ -73,11 +73,12 @@ class EventManager {
 		return userId;
 	};
 
-	#loadMonthFromDB = async (date, username) => {
+	#loadMonthFromDB = async (date, username, provider) => {
 		let data;
+		date = startOfDay(date);
 		let startDate = startOfMonth(date);
 		let days = getDaysInMonth(date);
-		let userId = await this.#getUserId(username);
+		let userId = await this.#getUserId(username, provider);
 		days = [...Array(days).keys()].map((x) => addDays(startDate, x));
 		let res = await fetch('/api/calendar/get', {
 			method: 'POST',
@@ -114,6 +115,7 @@ class EventManager {
 
 	#storeEventsLocally = (events) => {
 		events?.forEach((day) => {
+			console.log('EventData', day);
 			console.log(day.date);
 			let hash = this.#getDateHash(parseISO(day.date));
 			this.#events[hash] = [...day.events];
@@ -136,15 +138,17 @@ class EventManager {
 		else return date;
 	};
 
-	async getEventsForDate(date, username, refreshCallback = () => {}) {
+	async getEventsForDate(date, username, provider, refreshCallback = () => {}) {
 		console.log(date);
 		if (!this.#dateIsSynced(date)) {
 			console.log('not synced');
-			await this.#syncMonth(date, username, refreshCallback);
+			await this.#syncMonth(date, username, provider, refreshCallback);
 			let hash = await this.#getDateHash(date);
+			console.log('hash:', this.#events[hash]);
 			return this.#events[hash];
 		} else {
 			let hash = this.#getDateHash(date);
+			console.table(this.#events[hash]);
 			return this.#events[hash];
 		}
 	}
@@ -153,6 +157,7 @@ class EventManager {
 		console.log('AddDate:', date);
 		let hash = this.#getDateHash(date);
 		let id = this.#getID(hash);
+		date = startOfDay(date);
 		const {
 			title,
 			description,
@@ -210,10 +215,11 @@ class EventManager {
 			});
 	}
 
-	async deleteEvent(date, username, eventId, callback) {
+	async deleteEvent(date, username, eventId, provider, callback) {
 		let success = false;
 		let hash = this.#getDateHash(date);
-		let userId = await this.#getUserId(username);
+		let userId = await this.#getUserId(username, provider);
+		date = startOfDay(date);
 		await fetch('/api/calendar/delete', {
 			method: 'DELETE',
 			headers: {
@@ -233,9 +239,7 @@ class EventManager {
 				console.log(error);
 			});
 		if (success) {
-			let index = this.#events[hash]?.indexOf((el) => {
-				el.id == eventId;
-			});
+			let index = this.#events[hash]?.findIndex((el) => el.uid == eventId);
 			this.#events[hash]?.splice(index, 1);
 			callback();
 		}

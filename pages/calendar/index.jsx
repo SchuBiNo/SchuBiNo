@@ -30,8 +30,8 @@ export default function Calender() {
 	const [hasEventForm, setEventForm] = useState(false);
 
 	useEffect(() => {
-		getEventsForDay();
 		console.log(session);
+		getEventsForDay();
 	}, [session]);
 
 	useEffect(() => {
@@ -63,7 +63,12 @@ export default function Calender() {
 	function getEventsForDay() {
 		setEvents(['loading']);
 		eventManager
-			.getEventsForDate(value, session?.user.name, refresh)
+			.getEventsForDate(
+				value,
+				session?.databaseId || session?.user.name,
+				session?.provider,
+				refresh
+			)
 			.then((events) => {
 				events = events?.map((cEvent) => (
 					<a
@@ -73,24 +78,32 @@ export default function Calender() {
 						<div className='d-flex w-100 justify-content-between'>
 							<h5 className='mb-1'>{cEvent.title}</h5>
 							<small>
-								{getHours(parseISO(cEvent.date))}:
-								{getMinutes(parseISO(cEvent.date))}
+								{getHours(parseISO(cEvent.start))}:
+								{getMinutes(parseISO(cEvent.start))}
 							</small>
 						</div>
 						<p className='mb-1'>{cEvent.description}</p>
+						{cEvent.location && <p>Location: {cEvent.location}</p>}
 						<p>
-							<span className='badge bg-primary rounded-pill '>
-								{cEvent.flare}
-							</span>
+							{cEvent.categories?.split(',').map((category) => (
+								<>
+									<span className='badge bg-danger rounded-pill '>
+										{category}
+									</span>{' '}
+								</>
+							))}
 						</p>
+						<p></p>
 						<small>
 							edit |{' '}
 							<a
 								onClick={() => {
+									console.log(cEvent.id);
 									eventManager.deleteEvent(
 										value,
-										session?.user.name,
-										cEvent.id,
+										session?.databaseId || session?.user.name,
+										cEvent.uid,
+										session?.provider,
 										refresh
 									);
 								}}>

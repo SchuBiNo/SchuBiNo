@@ -14,9 +14,11 @@ export default function Todo() {
 	const [hasTodoForm, setTodoForm] = useState(false);
 
 	useEffect(() => {
-		todoManager.getTodos(session?.user.name).then((todos) => {
-			setTodos(todos);
-		});
+		todoManager
+			.getTodos(session?.databaseId || session?.user.name, session?.provider)
+			.then((todos) => {
+				setTodos(todos);
+			});
 	}, [session]);
 
 	function completeTodo(todo, index) {
@@ -36,9 +38,15 @@ export default function Todo() {
 	}
 
 	function removeTodo(todo) {
-		todoManager.deleteTodo(session.user.name, todo.todoId).then((todos) => {
-			setTodos([...todos]);
-		});
+		todoManager
+			.deleteTodo(
+				session?.databaseId || session?.user.name,
+				todo.todoId,
+				session?.provider
+			)
+			.then((todos) => {
+				setTodos([...todos]);
+			});
 	}
 
 	function showTodoForm() {
@@ -52,7 +60,12 @@ export default function Todo() {
 		console.log(value);
 		if (value) {
 			todoManager
-				.addTodo(value.date, value.title, session?.user.name)
+				.addTodo(
+					value.date,
+					value.title,
+					session?.databaseId || session?.user.name,
+					session?.provider
+				)
 				.then((todos) => {
 					setTodos([...todos]);
 				});
@@ -69,8 +82,8 @@ export default function Todo() {
 					<ul className='list-group'>
 						{todos.map((todo, index) => (
 							<li
-								className={`list-group-item list-group-item-action redLine flex-column align-items-start ${
-									todo.completed ? 'list-group-item-success' : ''
+								className={`list-group-item list-group-item-action redLine flex-column align-items-start todo ${
+									todo.completed ? 'list-group-item-success hidden' : ''
 								}`}
 								key={todo.id}
 								onClick={() => {
@@ -88,9 +101,7 @@ export default function Todo() {
 							</li>
 						))}
 					</ul>
-					<button
-						className='btn bgr mt-4'
-						onClick={() => setTodoForm(true)}>
+					<button className='btn bgr mt-4' onClick={() => setTodoForm(true)}>
 						Add
 					</button>
 					{showTodoForm()}

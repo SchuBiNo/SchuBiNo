@@ -2,7 +2,7 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import AccessDenied from '@/components/accessDenied';
 import Loader from '@/components/loader';
 import Image from 'next/image';
-import logo from '../public/SchuBiNoNavBar.png';
+import logo from '@/public/SchuBiNoNavBar.png';
 
 const MyLogo = (props) => {
 	return <Image src={logo} layout='responsive' />;
@@ -31,8 +31,12 @@ export default function Page() {
 						der Betrachter nicht durch den Inhalt abgelenkt wird.{' '}
 					</p>
 				</div>
-				<div className='indexLogin'>
-					{session ? <AccessDenied /> : <AccessDenied />}
+				<div className='indexLogin'>{session ? <></> : <AccessDenied />}</div>
+
+				<div className='container'>
+					<button className='btn btn-primary' onClick={() => signOut()}>
+						SignOut
+					</button>
 				</div>
 			</div>
 		</div>

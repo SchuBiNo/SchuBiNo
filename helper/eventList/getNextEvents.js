@@ -1,13 +1,19 @@
 import events from '../calendar/eventManager';
 import { addDays } from 'date-fns';
 
-export async function loadNextEvents(days, startDay, amountToReturn, username) {
+export async function loadNextEvents(
+	days,
+	startDay,
+	amountToReturn,
+	username,
+	provider
+) {
 	let day = startDay;
 	let amountLeft = amountToReturn;
 	let nextEvents = [];
 	let tempDailyEvents;
 	for (let i = 0; i < days; i++) {
-		tempDailyEvents = await events.getEventsForDate(day, username);
+		tempDailyEvents = await events.getEventsForDate(day, username, provider);
 		tempDailyEvents?.forEach((item) => {
 			if (amountLeft > 0) {
 				nextEvents.push(item);

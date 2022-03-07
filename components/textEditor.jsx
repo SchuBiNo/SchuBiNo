@@ -1,5 +1,6 @@
 import React from 'react';
 import 'draft-js/dist/Draft.css';
+import { nanoid } from 'nanoid';
 
 import {
 	Editor,
@@ -22,6 +23,7 @@ class MyEditor extends React.Component {
 		this.checkTimeout = null;
 		this.lastText = '';
 		this.language = 'en';
+		this.suggestionOffsets = [];
 	}
 
 	handleChange = (editorState) => {
@@ -52,6 +54,7 @@ class MyEditor extends React.Component {
 			})
 			.then((data) => {
 				console.log(data);
+				this.suggestionOffsets = [];
 				this.displaySuggestions(data);
 				this.setState({ validating: false });
 			})
@@ -65,16 +68,25 @@ class MyEditor extends React.Component {
 		this.setState({
 			editorState: EditorState.set(this.state.editorState, {
 				decorator: new CompositeDecorator(
-					data.suggestions.map((suggestion, index) => {
+					data.suggestions.map((suggestion, _) => {
+						let id = nanoid(8);
 						return {
-							strategy: (contentBlock, callback) => {
-								callback(suggestion.startPos, suggestion.endPos);
+							strategy: (_, callback) => {
+								let offset = 0;
+								this.suggestionOffsets.forEach((o) => {
+									if (o.start < suggestion.startPos) offset += o.offset;
+								});
+								callback(
+									suggestion.startPos + offset,
+									suggestion.endPos + offset
+								);
 							},
 							component: this.Suggestion(
 								suggestion.replacement,
 								suggestion.message,
-								index
+								id
 							),
+							id: id,
 						};
 					})
 				),
@@ -82,21 +94,24 @@ class MyEditor extends React.Component {
 		});
 	};
 
-	removeDecorator = (index, newEditorState) => {
+	removeDecorator = (id, newEditorState) => {
 		let decorators = this.state.editorState.getDecorator();
-		let newDecorators = decorators._decorators
-			.slice(0, index)
-			.concat(decorators._decorators.slice(index + 1));
+		let index = decorators._decorators.findIndex(
+			(decorator) => decorator.id === id
+		);
+		console.log(index);
+		console.log(decorators._decorators.splice(index, 1));
 
+		console.log(decorators);
 		this.setState({
 			editorState: EditorState.set(newEditorState, {
-				decorator: new CompositeDecorator(newDecorators),
+				decorator: new CompositeDecorator(decorators._decorators),
 			}),
 			currSuggestionBox: <></>,
 		});
 	};
 
-	Suggestion = (replacements, message, index) => {
+	Suggestion = (replacements, message, id) => {
 		return (props) => {
 			this.isClicked = false;
 
@@ -128,7 +143,7 @@ class MyEditor extends React.Component {
 											onClick={() => {
 												focus();
 												this.removeDecorator(
-													index,
+													id,
 													this.replace(props, replacement)
 												);
 											}}>
@@ -148,6 +163,7 @@ class MyEditor extends React.Component {
 						style={{ color: 'red' }}
 						onClick={(e) => {
 							this.isClicked = false;
+							console.log(this.state.editorState.getDecorator()._decorators[0]);
 							this.setState({
 								currSuggestionBox: suggestionBox([e.clientX, e.clientY]),
 							});
@@ -164,6 +180,26 @@ class MyEditor extends React.Component {
 			anchorOffset: props.start,
 			focusOffset: props.end,
 		});
+		this.suggestionOffsets.push({
+			start: props.end,
+			offset:
+				this.state.editorState
+					.getCurrentContent()
+					.getPlainText()
+					.slice(props.start, props.end).length - replacement.length,
+		});
+
+		console.log(this.suggestionOffsets);
+		console.log(
+			'Start: ' + props.start,
+			'End: ' + props.end,
+			'Select leng:',
+			this.state.editorState
+				.getCurrentContent()
+				.getPlainText()
+				.slice(props.start, props.end).length
+		);
+
 		let newContentState = Modifier.replaceText(
 			this.state.editorState.getCurrentContent(),
 			selectionState,
