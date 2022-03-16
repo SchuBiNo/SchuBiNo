@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import AddSubjectForm from '@/components/addSubjectForm';
 import AddSubjectTypeForm from '@/components/addSubjectTypeForm';
 import { nanoid } from 'nanoid';
+import gradesManager from '@/helper/grades/gradesManager';
 import Loader from '@/components/loader';
 
 export default function Dashboard() {
@@ -33,6 +34,14 @@ export default function Dashboard() {
 	const [hasSubjectForm, setSubjectForm] = useState(false);
 	const [hasSubjectTypeForm, setSubjectTypeForm] = useState(false);
 
+	useEffect(() => {
+		gradesManager
+			.getGrades(session?.databaseId || session?.user.name, session?.provider)
+			.then((grades) => {
+				setSubjects(grades);
+			});
+	}, [session]);
+
 	function setActiveSubject(subject) {
 		setCurSubject(subject);
 	}
@@ -45,7 +54,13 @@ export default function Dashboard() {
 				title: data.title,
 				types: [],
 			};
-			setSubjects([...subjects, newSubject]);
+			gradesManager
+				.setGrades(
+					[...subjects, newSubject],
+					session?.databaseId || session?.user.name,
+					session?.provider
+				)
+				.then((grades) => setSubjects(grades));
 		}
 	}
 
@@ -108,7 +123,13 @@ export default function Dashboard() {
 				setError('Total percentage of subject types is more than 100%');
 			}
 
-			setSubjects(tempSubjects);
+			gradesManager
+				.setGrades(
+					tempSubjects,
+					session?.databaseId || session?.user.name,
+					session?.provider
+				)
+				.then((subject) => setSubjects(subject));
 			setCurSubject(tempSubjects[subjectIndex]);
 		}
 	}
@@ -122,7 +143,13 @@ export default function Dashboard() {
 			(type) => typeId === type.id
 		);
 		tempSubjects[subjectIndex].types[typeIndex].grades.push(grade);
-		setSubjects(tempSubjects);
+		gradesManager
+			.setGrades(
+				tempSubjects,
+				session?.databaseId || session?.user.name,
+				session?.provider
+			)
+			.then((subject) => setSubjects(subject));
 		setCurSubject(tempSubjects[subjectIndex]);
 	}
 
