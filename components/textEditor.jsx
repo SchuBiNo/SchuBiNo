@@ -95,6 +95,7 @@ class MyEditor extends React.Component {
 	};
 
 	removeDecorator = (id, newEditorState) => {
+		this.lastText = newEditorState.getCurrentContent().getPlainText('\u0001');
 		let decorators = this.state.editorState.getDecorator();
 		let index = decorators._decorators.findIndex(
 			(decorator) => decorator.id === id
@@ -183,13 +184,13 @@ class MyEditor extends React.Component {
 		this.suggestionOffsets.push({
 			start: props.end,
 			offset:
+				replacement.length -
 				this.state.editorState
 					.getCurrentContent()
 					.getPlainText()
-					.slice(props.start, props.end).length - replacement.length,
+					.slice(props.start, props.end).length,
 		});
 
-		console.log(this.suggestionOffsets);
 		console.log(
 			'Start: ' + props.start,
 			'End: ' + props.end,
