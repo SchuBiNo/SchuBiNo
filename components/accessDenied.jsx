@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 
 class AccessDenied extends React.Component {
@@ -12,9 +13,9 @@ class AccessDenied extends React.Component {
 						<button className='btn btn-secondary mt-3' onClick={() => signIn()}>
 							Sign in
 						</button>
-						<button className='btn btn-secondary mt-3 disabled' >
-							Sign up
-						</button>
+						<Link href='/auth/signup'>
+							<button className='btn btn-secondary mt-3'>Sign up</button>
+						</Link>
 					</div>
 				</>
 			</div>

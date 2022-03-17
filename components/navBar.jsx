@@ -42,9 +42,9 @@ class Navbar extends React.Component {
 									))}
 								</ul>
 							</div>
-							<form class='form-inline my-2 my-lg-0'>
+							<form className='form-inline my-2 my-lg-0'>
 								<button
-									class='btn btn-outline my-2 my-sm-0 ms-auto d-flex butred'
+									className='btn btn-outline my-2 my-sm-0 ms-auto d-flex butred'
 									type='submit'>
 									Search
 								</button>

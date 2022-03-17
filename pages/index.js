@@ -5,7 +5,7 @@ import Image from 'next/image';
 import logo from '@/public/SchuBiNoNavBar.png';
 
 const MyLogo = (props) => {
-	return <Image src={logo} layout='responsive' />;
+	return <Image src={logo} layout='responsive' alt='Logo' />;
 };
 
 export default function Page() {
@@ -33,11 +33,15 @@ export default function Page() {
 				</div>
 				<div className='indexLogin'>{session ? <></> : <AccessDenied />}</div>
 
-				<div className='container'>
-					<button className='btn btn-primary' onClick={() => signOut()}>
-						SignOut
-					</button>
-				</div>
+				{session ? (
+					<div className='container'>
+						<button className='btn btn-primary' onClick={() => signOut()}>
+							SignOut
+						</button>
+					</div>
+				) : (
+					<></>
+				)}
 			</div>
 		</div>
 	);

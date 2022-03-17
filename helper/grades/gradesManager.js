@@ -43,9 +43,11 @@ class GradesManager {
 		}
 	};
 
-	async setGrade(grades, username, provider) {
+	async setGrades(grades, username, provider) {
+		console.log('username:', username, 'provider:', provider);
 		if (!grades || !username) return this.#grades;
 		let userId = await this.#getUserId(username, provider);
+		console.log('userId:', userId);
 		this.#grades = grades;
 
 		await fetch('/api/grades/update', {

@@ -1,5 +1,5 @@
 import AccessDenied from '@/components/accessDenied';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import AddSubjectForm from '@/components/addSubjectForm';
 import AddSubjectTypeForm from '@/components/addSubjectTypeForm';
@@ -10,6 +10,7 @@ import Loader from '@/components/loader';
 export default function Dashboard() {
 	const { data: session, status } = useSession();
 	const [curSubject, setCurSubject] = useState();
+	const [gradeInput, setGradeInput] = useState();
 	const [subjects, setSubjects] = useState([
 		{
 			id: nanoid(),
@@ -84,6 +85,7 @@ export default function Dashboard() {
 	function getSubjectAverage(subject) {
 		let setSubject = subject ? subject : curSubject;
 		if (setSubject) {
+			console.log(setSubject);
 			let mark = 0;
 			setSubject.types.forEach((type) => {
 				const sum = type.grades.reduce((a, b) => a + b, 0);
@@ -139,10 +141,10 @@ export default function Dashboard() {
 		let subjectIndex = tempSubjects.findIndex(
 			(subject) => subject.id === subjectId
 		);
-		let typeIndex = tempSubject[subjectIndex].types.findIndex(
+		let typeIndex = tempSubjects[subjectIndex].types.findIndex(
 			(type) => typeId === type.id
 		);
-		tempSubjects[subjectIndex].types[typeIndex].grades.push(grade);
+		tempSubjects[subjectIndex].types[typeIndex].grades.push(parseInt(grade));
 		gradesManager
 			.setGrades(
 				tempSubjects,
@@ -151,6 +153,7 @@ export default function Dashboard() {
 			)
 			.then((subject) => setSubjects(subject));
 		setCurSubject(tempSubjects[subjectIndex]);
+		setGradeInput(false);
 	}
 
 	function showError() {
@@ -177,7 +180,9 @@ export default function Dashboard() {
 									</thead>
 									<tbody>
 										{subjects.map((subject) => (
-											<tr onClick={() => setActiveSubject(subject)}>
+											<tr
+												onClick={() => setActiveSubject(subject)}
+												key={subject.id}>
 												<td>{subject?.title}</td>
 												<td>{getSubjectAverage(subject)}</td>
 											</tr>
@@ -210,7 +215,27 @@ export default function Dashboard() {
 													</div>
 													<div className='col'>
 														{type.grades.join(', ')}{' '}
-														<button className='col btn bgr btn-sm'>+</button>
+														<button
+															className='col btn bgr btn-sm'
+															onClick={() => setGradeInput(!gradeInput)}>
+															+
+														</button>
+														{gradeInput ? (
+															<input
+																className='form-control'
+																type='number'
+																onKeyUp={(e) => {
+																	if (e.key === 'Enter') {
+																		addGrade(
+																			curSubject.id,
+																			type.id,
+																			e.target.value
+																		);
+																	}
+																}}></input>
+														) : (
+															<></>
+														)}
 													</div>
 												</tr>
 											))}

@@ -5,6 +5,8 @@ import { refreshToken as googleRefresh } from '../providers/google';
 export default async ({ token, user, account }) => {
 	console.log('jwt');
 
+	console.log('token:', token);
+
 	if (account?.provider == 'credentials') return Promise.resolve(token);
 
 	if (account && user) {

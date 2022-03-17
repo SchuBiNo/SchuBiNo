@@ -227,14 +227,16 @@ class MyEditor extends React.Component {
 		return (
 			<>
 				<form className='form-control mb-4 mt-4'>
-					<div class='input-group mb-3 mt-3'>
-						<div class='input-group-prepend'>
-							<label class='input-group-text' for='inputGroupSelectLang'>
+					<div className='input-group mb-3 mt-3'>
+						<div className='input-group-prepend'>
+							<label
+								className='input-group-text'
+								htmlFor='inputGroupSelectLang'>
 								Language
 							</label>
 						</div>
 						<select
-							class='language-select'
+							className='language-select'
 							id='inputGroupSelectLang'
 							onChange={(e) => {
 								this.language = e.target.value;
