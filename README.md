@@ -45,16 +45,32 @@ To enable Google and GitHub as Credential Provider, you have to add your API det
 ```bash
 GITHUB_ID= Your ID
 GITHUB_SECRET= Your Secret
+GITHUB_SCOPE= "user:email"
 
 GOOGLE_ID= Your ID
 GOOGLE_SECRET= Your Secret
+GOOGLE_SCOPE = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
 ```
 
-## Learn More
+## Connect to the Language API
 
-To learn more about Next.js, take a look at the following resources:
+The source code for the Language API can be found [here](https://github.com/SchuBiNo/SchuBiNo-langAPI).
+Since the Language API is based on the Java Spring Framework, Apache Maven must be installed.
+Then the API can be started with the following command:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+```
+mvn spring-boot:run
+```
+
+To connect the app to the API, the following values must be specified in the `.env` file:
+
+```
+LANGUAGE_API_URL = <URL>/api/v1/language
+```
+
+---
+
+All repositories belonging to the project can be accessed on [GitHub](https://github.com/SchuBiNo).
 
 <div style="page-break-after: always;"></div>
 
@@ -105,13 +121,29 @@ Um Google und GitHub als Credentials Provider zu aktivieren, müssen Sie Ihre AP
 ```bash
 GITHUB_ID= Your ID
 GITHUB_SECRET= Your Secret
+GITHUB_SCOPE= "user:email"
 
 GOOGLE_ID= Your ID
 GOOGLE_SECRET= Your Secret
+GOOGLE_SCOPE = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email"
 ```
 
-## Mehr erfahren
+## Verbinden mit der Language-API
 
-Um mehr über Next.js zu erfahren, werfen Sie einen Blick auf die folgenden Ressourcen:
+Der Sourcecode für die Language-API ist [hier](https://github.com/SchuBiNo/SchuBiNo-langAPI) zu finden.
+Da die Language-API auf dem Java Spring Framework basiert, muss Apache Maven installiert sein.
+Dann kann die API mit dem folgenden Befehl gestartet werden:
 
-- [Next.js Dokumentation](https://nextjs.org/docs) - erfahren Sie mehr über Next.js Funktionen und API.
+```
+mvn spring-boot:run
+```
+
+Um die App mit der API zu verbinden, müssen die folgenden Werte in der `.env` Datei angeben werden:
+
+```
+LANGUAGE_API_URL = <URL>/api/v1/language
+```
+
+---
+
+Alle zum Projekt gehörenden Repositories können auf [GitHub](https://github.com/SchuBiNo) abgerufen werden.

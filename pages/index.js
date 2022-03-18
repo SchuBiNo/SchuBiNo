@@ -22,13 +22,8 @@ export default function Page() {
 			<div className='index mt50'>
 				<div className='indexText'>
 					<p>
-						„Lorem ipsum dolor sit amet, consectetur adipisici elit, …“ ist ein
-						Blindtext, der nichts bedeuten soll, sondern als Platzhalter im
-						Layout verwendet wird, um einen Eindruck vom fertigen Dokument zu
-						erhalten. Die Verteilung der Buchstaben und der Wortlängen des
-						pseudo-lateinischen Textes entspricht in etwa der natürlichen
-						lateinischen Sprache. Der Text ist absichtlich unverständlich, damit
-						der Betrachter nicht durch den Inhalt abgelenkt wird.{' '}
+						This is your planner. Please sign up to start your schedule. If you
+						are already signed up, sign in to access your schedule.{' '}
 					</p>
 				</div>
 				<div className='indexLogin'>{session ? <></> : <AccessDenied />}</div>
